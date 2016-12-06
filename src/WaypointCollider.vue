@@ -10,7 +10,7 @@
 
 <style scoped>
   .vue-waypoint__waypoint__collider {
-    position: absolute;
+    position: relative;
     width: 100%;
     height: 100%;
   }
