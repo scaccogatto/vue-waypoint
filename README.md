@@ -1,7 +1,6 @@
 # vue-waypoint
 
-> <v-waypoint> component for Vue
-> this is the easiest way to trigger a function when you scroll
+> <v-waypoint> component for Vue, this is the easiest way to trigger a function when you scroll [Waypoints](http://imakewebthings.com/waypoints/)-like
 
 ## Features
 - Uses [requestAnimationFrame](https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame)
