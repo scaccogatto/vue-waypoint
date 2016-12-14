@@ -124,6 +124,12 @@
     height: 0;
   }
 
+  .vue-waypoint__waypoint.fill {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+
   .vue-waypoint__waypoint.top {
     position: absolute;
     top: 0;
