@@ -122,6 +122,7 @@
   .vue-waypoint__waypoint {
     width: 100%;
     height: 0;
+    z-index: -1;
   }
 
   .vue-waypoint__waypoint.fill {
