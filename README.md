@@ -117,7 +117,7 @@ Vue.use(VueWaypoint)
 - It is a global [Component](https://vuejs.org/v2/guide/components.html), you can call it with `<v-waypoint></v-waypoint>`
 - Implements three props:
   1. `:active`: activates the Waypoint (default: `true`)
-  2. `:position`: sets the Waypoint `position: absolute` with a specific direction; possible values: `['top', 'right', 'bottom', 'left']` (default: `undefined`)
+  2. `:position`: sets the Waypoint `position: absolute` with a specific direction; possible values: `['fill', 'top', 'right', 'bottom', 'left']` (default: `undefined`)
   3. `:horizontal`: activates the horizontal scroll check (default: `false`)
 - Implements five events:
   1. `@waypoint-down-in`: this will be called when the Waypoint is going inside the window with scroll -> down
