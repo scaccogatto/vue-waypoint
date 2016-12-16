@@ -6,7 +6,7 @@
 - Uses [requestAnimationFrame](https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame)
 - Uses [vue-collision](https://github.com/scaccogatto/vue-collision)
 - `<v-waypoint>` is callable everywhere
-- Comes with the old fashioned event or with a new, fresh event-oriented syntax
+- Comes with an easy plug and play event or with a fully described event
 
 ## Installation
 
@@ -26,9 +26,10 @@ Vue.use(VueWaypoint)
 ```js
 <template>
   <div class="waypoint-test">
-    <v-waypoint @waypoint="oldEventHandler"></v-waypoint>
-    <div class="waypoint-old-text">
-      {{ oldText }}
+    <v-waypoint @waypoint-in="inHandler"
+                @waypoint-out="outHandler"></v-waypoint>
+    <div class="waypoint-text">
+      {{ text }}
     </div>
   </div>
 </template>
@@ -37,34 +38,28 @@ Vue.use(VueWaypoint)
   export default {
     data: () => {
       return {
-        oldText: 'no-trigger-yet'
+        text: 'not-trigger-yet'
       }
     },
     methods: {
-      oldEventHandler (direction, going) {
-        // this will be called every time the Waypoint is triggered
-        oldText = 'scroll ' + direction + ', going ' + going + 'side'
+      inHandler () {
+        this.text = 'going in'
+      },
+      outHandler () {
+        this.text = 'going out'
       }
     }
   }
 </script>
 ```
 
-### Components - Event Oriented
+### Components - Complete method
 ```js
 <template>
   <div class="waypoint-test">
-    <v-waypoint
-      @waypoint-down-in="downIn"
-      @waypoint-down-out="downOut"
-      @waypoint-up-in="upIn"
-      @waypoint-up-out="upOut"></v-waypoint>
-    <div class="waypoint-fresh-text">
-      {{ freshText }}
-    </div>
-    <v-waypoint @waypoint="oldEventHandler"></v-waypoint>
-    <div class="waypoint-old-text">
-      {{ oldText }}
+    <v-waypoint @waypoint="waypointHandler"></v-waypoint>
+    <div class="waypoint-text">
+      {{ text }}
     </div>
   </div>
 </template>
@@ -73,30 +68,12 @@ Vue.use(VueWaypoint)
   export default {
     data: () => {
       return {
-        freshText: 'no-trigger-yet',
-        oldText: 'no-trigger-yet'
+        text: 'not-trigger-yet'
       }
     },
     methods: {
-      downIn () {
-        // this will be called when the Waypoint is going inside the window with scroll -> down
-        freshText = 'scroll down, going inside'
-      },
-      downOut () {
-        // this will be called when the Waypoint is going outside the window with scroll -> down
-        freshText = 'scroll down, going outside'
-      },
-      upIn () {
-        // this will be called when the Waypoint is going inside the window with scroll -> up
-        freshText = 'scroll up, going inside'
-      },
-      upOut () {
-        // this will be called when the Waypoint is going outside the window with scroll -> up
-        freshText = 'scroll up, going outside'
-      },
-      oldEventHandler (direction, going) {
-        // this will be called every time the Waypoint is triggered
-        oldText = 'scroll ' + direction + ', going ' + going + 'side'
+      waypointHandler (direction, going) {
+        this.text = 'the Waypoint has been triggered with: direction: { x: ' + direction.x + ', y: ' + direction.y + ' } and going: ' + going
       }
     }
   }
@@ -115,22 +92,18 @@ Vue.use(VueWaypoint)
 
 ### Vue.js
 - It is a global [Component](https://vuejs.org/v2/guide/components.html), you can call it with `<v-waypoint></v-waypoint>`
-- Implements three props:
+- Implements two props:
   1. `:active`: activates the Waypoint (default: `true`)
   2. `:position`: sets the Waypoint `position: absolute` with a specific direction; possible values: `['fill', 'top', 'right', 'bottom', 'left']` (default: `undefined`)
-  3. `:horizontal`: activates the horizontal scroll check (default: `false`)
-- Implements five events:
-  1. `@waypoint-down-in`: this will be called when the Waypoint is going inside the window with scroll -> down
-  2. `@waypoint-down-out`: this will be called when the Waypoint is going outside the window with scroll -> down
-  3. `@waypoint-up-in`: this will be called when the Waypoint is going inside the window with scroll -> up
-  4. `@waypoint-up-out`: this will be called when the Waypoint is going outside the window with scroll -> up
+- Implements three events:
+  1. `@waypoint-in`: this will be called when the Waypoint is going inside the window
+  2. `@waypoint-out`: this will be called when the Waypoint is going outside the window
   5. `@waypoint`: this will be called every time the Waypoint is triggered, it has (direction, going) as parameters
-    - `direction`: `down || up`, scroll direction
+    - `direction`: `Object: { x, y }`, scroll direction (up, down, left, right)
     - `going`: `in || out`, inside or outside the window's viewport
 
 ### API
-> You can also get some data from the Waypoint ref
+> You can also get some data from the Waypoint reference
 
 - `Boolean colliding`: check is the Waypoint is colliding against the window
-- `String direction`: gets the last scroll direction
 - `String going`: gets the last component's direction (in/out)
