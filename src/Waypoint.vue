@@ -13,25 +13,10 @@
     components: { WaypointCollider },
     data: () => {
       return {
-        colliding: false,
-        lastScrollY: window.scrollY,
-        lastScrollX: window.scrollX,
-        direction: 'down',
-        _throttledScrollListener: undefined
+        colliding: false
       }
     },
     computed: {
-      _scrollHandler () {
-        return this.horizontal ? this._handleCompleteScroll : this._handleVerticalScroll
-      },
-      _scrollVerticalDirection () {
-        // positive: down, negative up
-        return Math.sign(window.scrollY - this.lastScrollY)
-      },
-      _scrollHorizontalDirection () {
-        // positive: right, negative left
-        return Math.sign(window.scrollX - this.lastScrollX)
-      },
       going () {
         return this.colliding ? 'in' : 'out'
       }
@@ -44,10 +29,6 @@
       position: {
         type: String,
         default: undefined
-      },
-      horizontal: {
-        type: Boolean,
-        default: false
       }
     },
     methods: {
@@ -63,62 +44,20 @@
           this._emitWaypointEvent()
         }
       },
-      _handleVerticalScroll () {
-        this.direction = this._getDirection()
-        this.lastScrollY = window.scrollY
-      },
-      _handleCompleteScroll () {
-        this.direction = this._getDirection()
-        this.lastScrollY = window.scrollY
-        this.lastScrollX = window.scrollX
-      },
       _emitWaypointEvent () {
-        this.$emit('waypoint-' + this.direction + '-' + this.going)
+        if (this.active) {
+          // basic Waypoint event
+          this.$emit('waypoint-' + this.going)
 
-        // old fashioned way
-        this.$emit('waypoint', this.direction, this.going)
-      },
-      _getDirection () {
-        if (this._scrollVerticalDirection > 0)   return 'down'
-        if (this._scrollVerticalDirection < 0)   return 'up'
-        if (!this.horizontal)                    return undefined
-
-        if (this._scrollHorizontalDirection > 0) return 'right'
-        if (this._scrollHorizontalDirection < 0) return 'left'
-                                                 return undefined
-      },
-      _addEventListeners () {
-        this._throttledScrollListener = this.$throttle('scroll', 'v-waypoint-throttled-scroll', window)
-        window.addEventListener('v-waypoint-throttled-scroll', this._scrollHandler)
-      },
-      _updateEventListeners () {
-        window.removeEventListener('v-waypoint-throttled-scroll', this._scrollHandler)
-        window.addEventListener('v-waypoint-throttled-scroll', this._scrollHandler)
-      },
-      _removeEventListeners () {
-        window.removeEventListener('scroll', this._throttledScrollListener)
-        window.removeEventListener('v-waypoint-throttled-scroll', this._scrollHandler)
+          // complete event with full description
+          this.$emit('waypoint', this.$scrollDirection(), this.going)
+        }
       }
-    },
-    watch: {
-      active () {
-        if (this.active) { this._addEventListeners() }
-        else { this._removeEventListeners() }
-      }
-    },
-    created () {
-      if (this.active) { this._addEventListeners() }
-    },
-    updated () {
-      if (this.active) { this._updateEventListeners() }
-    },
-    beforeDestroy () {
-      if (this.active) { this._removeEventListeners() }
     }
   }
 </script>
 
-<style scoped>
+<style>
   .vue-waypoint__waypoint {
     width: 100%;
     height: 0;
