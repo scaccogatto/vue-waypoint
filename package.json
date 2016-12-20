@@ -1,7 +1,7 @@
 {
   "name": "vue-waypoint",
   "description": "<v-waypoint> component for Vue",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "author": "Marco 'Gatto' Boffo <marcoboffo.waves@gmail.com>",
   "repository": {
     "type": "git",
