@@ -1,6 +1,9 @@
 <template>
   <div class="vue-waypoint__waypoint" :class="[position]">
-    <waypoint-collider v-collision @collide="_vueWaypointHandle" @non-collide="_vueWaypointHandleOff">
+    <waypoint-collider v-if="active"
+                       v-collision
+                       @collide="_vueWaypointHandle"
+                       @non-collide="_vueWaypointHandleOff">
     </waypoint-collider>
   </div>
 </template>
