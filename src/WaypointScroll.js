@@ -1,16 +1,16 @@
 const WaypointScroll = {
-  lastScrollX: window.scrollX,
-  lastScrollY: window.scrollY,
+  lastScrollX: window.pageXOffset,
+  lastScrollY: window.pageYOffset,
   direction: {
     x: 'right',
     y: 'down'
   },
   updateScrollDirection () {
-    WaypointScroll.direction.x = WaypointScroll._mapperX(Math.sign(window.scrollX - WaypointScroll.lastScrollX))
-    WaypointScroll.direction.y = WaypointScroll._mapperY(Math.sign(window.scrollY - WaypointScroll.lastScrollY))
+    WaypointScroll.direction.x = WaypointScroll._mapperX(Math.sign(window.pageXOffset - WaypointScroll.lastScrollX))
+    WaypointScroll.direction.y = WaypointScroll._mapperY(Math.sign(window.pageYOffset - WaypointScroll.lastScrollY))
 
-    WaypointScroll.lastScrollX = window.scrollX
-    WaypointScroll.lastScrollY = window.scrollY
+    WaypointScroll.lastScrollX = window.pageXOffset
+    WaypointScroll.lastScrollY = window.pageYOffset
   },
   getScrollDirection () {
     return WaypointScroll.direction
