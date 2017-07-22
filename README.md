@@ -107,3 +107,17 @@ Vue.use(VueWaypoint)
 
 - `Boolean colliding`: check is the Waypoint is colliding against the window
 - `String going`: gets the last component's direction (in/out)
+
+### Prerendering
+> When using tools like [prerender-spa-plugin](https://github.com/chrisvfritz/prerender-spa-plugin) to generate static HTML pages, it is very necessary to ensure the [Polyfill](https://babeljs.io/docs/usage/polyfill/) process load before it start.
+#### example for a vue init webpack project with prerender-spa-plugin
+- add Polyfill to your project
+``` bash
+npm install --save babel-polyfill
+``` 
+- modify the build/webpack.base.conf.js to be like this way
+``` js
+module.exports = {
+    entry: {app: ["babel-polyfill",'./src/main.js']},
+}
+```
