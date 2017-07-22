@@ -114,7 +114,7 @@ Vue.use(VueWaypoint)
 - add Polyfill to your project
 ``` bash
 npm install --save babel-polyfill
-```
+``` js
 - modify the build/webpack.base.conf.js to be like this way
 ```
 module.exports = {
