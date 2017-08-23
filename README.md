@@ -22,6 +22,29 @@ import VueWaypoint from 'vue-waypoint'
 // Waypoint plugin
 Vue.use(VueWaypoint)
 ```
+
+### Updating the scrolling reference
+Sometimes you don't need `window` as you main reference for scrolling positions (sub-routes) so you can make the whole library refer to another DOM Element. In that case, just rebind the reference (`default: window`)
+
+```js
+<template>
+  <div class="sub-route-root">
+    <components-with-waypoints />
+  </div>
+</template>
+
+<script>
+  export default {
+    mounted () {
+      this.$setWaypointScrollElement(this.$el)
+    },
+    beforeDestroy () {
+      this.$setWaypointScrollElement(window)
+    }
+  }
+</script>
+```
+
 ### Components - Easy
 ```js
 <template>
@@ -107,6 +130,10 @@ Vue.use(VueWaypoint)
 
 - `Boolean colliding`: check is the Waypoint is colliding against the window
 - `String going`: gets the last component's direction (in/out)
+
+> You can change the scroll reference as you wish in every component
+
+- `$setWaypointScrollElement(Element)`: changes the scroll reference from `window` to `Element`, (`window.pageYOffset -> Element.scrollTop`)
 
 ### Prerendering
 > When using tools like [prerender-spa-plugin](https://github.com/chrisvfritz/prerender-spa-plugin) to generate static HTML pages, it is very necessary to ensure the [Polyfill](https://babeljs.io/docs/usage/polyfill/) process load before it start.
