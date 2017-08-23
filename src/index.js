@@ -32,15 +32,13 @@ const VueWaypoint = {
   _setWaypointScrollElement (scrollElement) {
     VueWaypoint._unsetWaypointScrollElement()
     VueWaypoint._scrollElement = scrollElement
-    console.log('WP: adding to', VueWaypoint._scrollElement)
     WaypointScroll.setScrollElement(VueWaypoint._scrollElement)
     VueWaypoint._throttledHandler = VueThrottleEvent._throttle('scroll', 'v-waypoint-throttled-scroll', VueWaypoint._scrollElement)
     VueWaypoint._scrollElement.addEventListener('v-waypoint-throttled-scroll', VueWaypoint._scrollHandler)
   },
   _unsetWaypointScrollElement () {
-    console.log('WP: removing from', VueWaypoint._scrollElement)
-    VueWaypoint._scrollElement.removeEventListener('v-waypoint-throttled-scroll', VueWaypoint._scrollHandler)
     VueWaypoint._scrollElement.removeEventListener('scroll', VueWaypoint._throttledHandler)
+    VueWaypoint._scrollElement.removeEventListener('v-waypoint-throttled-scroll', VueWaypoint._scrollHandler)
   },
   _scrollHandler () {
     WaypointScroll.updateScrollDirection()
