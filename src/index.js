@@ -45,7 +45,6 @@ const VueWaypoint = {
   }
 }
 
-
 export default VueWaypoint
 
 // in-browser load
