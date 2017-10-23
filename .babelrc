@@ -1,4 +1,3 @@
 {
-  "presets": ["latest"],
-  "comments": false
+  "presets": ["env"]
 }
