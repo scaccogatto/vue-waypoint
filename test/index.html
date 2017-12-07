@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Welcome to Vue</title>
+  <script src="https://unpkg.com/vue"></script>
+  <script src="../dist/vue-waypoint.js"></script>
+
+  <style>
+    .wp-cont {
+      display: flex;
+    }
+
+    .wp-cont div {
+      width: 100px;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="space">space</div>
+    <div class="space">space</div>
+    <div class="space">space</div>
+    <div class="space">space</div>
+    <div class="space">space</div>
+    <div class="space">space</div>
+    <div class="space">space</div>
+    <div class="space">space</div>
+    <div class="space">space</div>
+    <div class="space">space</div>
+    <div class="space">space</div>
+    <div class="space">space</div>
+    <div class="space">space</div>
+    <div class="space">space</div>
+    <div class="space">space</div>
+    <div class="space">space</div>
+    <div class="space">space</div>
+    <div class="space">space</div>
+    <div class="wp-cont">
+      <div class="space">space</div>
+      <div class="space">space</div>
+      <div class="space">space</div>
+      <div class="space">space</div>
+      <div class="space">space</div>
+      <div class="space">space</div>
+      <div class="space">space</div>
+      <div class="space">space</div>
+      <div v-waypoint="{ active, callback }" class="wp-1">wp 1</div>
+      <div class="space">space</div>
+      <div class="space">space</div>
+      <div class="space">space</div>
+      <div class="space">space</div>
+      <div class="space">space</div>
+      <div class="space">space</div>
+      <div class="space">space</div>
+      <div class="space">space</div>
+    </div>
+    <div class="space">space</div>
+    <div class="space">space</div>
+    <div class="space">space</div>
+    <div class="space">space</div>
+    <div class="space">space</div>
+    <div class="space">space</div>
+    <div class="space">space</div>
+    <div class="space">space</div>
+    <div class="space">space</div>
+    <div class="space">space</div>
+    <div class="space">space</div>
+    <div class="space">space</div>
+    <div class="space">space</div>
+    <div class="space">space</div>
+    <div class="space">space</div>
+    <div class="space">space</div>
+    <div class="space">space</div>
+    <div class="space">space</div>
+  </div>
+
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: {
+        active: true
+      },
+      methods: {
+        callback: function (obj) {
+          console.log(obj)
+        }
+      }
+    })
+  </script>
+</body>
+</html>

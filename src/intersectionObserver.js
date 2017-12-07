@@ -8,10 +8,11 @@ const observerCallback = (entries, callback) => entries.forEach(entry => entryCa
 
 const entryCallback = (entry, callback) => callback(mapEntry(entry))
 
-const createObserver = (callback, options = defaultObserverOptions) => new window.IntersectionObserver(callback, options)
+const createObserver = (callback, options) => new window.IntersectionObserver(callback, options)
 
-const addObserver = (el, callback) => {
-  const observer = createObserver((entries, observer) => observerCallback(entries, callback))
+const addObserver = (el, callback, options = defaultObserverOptions) => {
+  const observer = createObserver((entries, observer) => observerCallback(entries, callback), options)
+  console.log(observer)
   observer.observe(el)
   return observer
 }

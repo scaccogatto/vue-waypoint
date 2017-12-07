@@ -15,9 +15,19 @@ const direction = (boundingClientRect, oldBoundingClientRect) => {
   if (boundingClientRect.x < oldBoundingClientRect.x) return DIRECTION_LEFT
 }
 
+const extractWaypointData = node => node._waypointData
+
+const extractOldBoundingClientRect = (node, defaultBoundingClientRect) => {
+  const nodeData = extractWaypointData(node)
+  return typeof nodeData !== 'undefined' ? nodeData : defaultBoundingClientRect
+}
+
 const mapEntry = entry => {
-  const { boundingClientRect, intersectionRatio, intersectionRect, isIntersecting, rootBounds, target, time } = entry
-  const oldBoundingClientRect = VueWaypoint.$_getBoundingClientRect(entry) // ?
+  const { boundingClientRect, intersectionRatio, target } = entry
+  const oldBoundingClientRect = extractOldBoundingClientRect(target, boundingClientRect)
+
+  // save current rect
+  target._waypointData = boundingClientRect
 
   return {
     el: target,
@@ -35,5 +45,6 @@ export {
   DIRECTION_TOP,
   DIRECTION_RIGHT,
   DIRECTION_BOTTOM,
-  DIRECTION_LEFT
+  DIRECTION_LEFT,
+  mapEntry
 }
