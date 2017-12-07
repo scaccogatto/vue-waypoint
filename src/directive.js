@@ -1,19 +1,19 @@
 import { addObserver, removeObserver } from './intersectionObserver'
 
-const defineDicrective = (Vue, options) => {
-  // this translates in v-waypoint="{ active, callback }"
+const defineDirective = Vue => {
+  // this translates into v-waypoint="{ active, callback }"
   Vue.directive('waypoint', {
     inserted (el, binding, vnode) {
-      const { active, callback } = binding.value
+      const { active, callback, options } = binding.value
 
-      // if user asked for acivation, activate
+      // if user asked for activation, activate
       if (active) {
-        const waypoint = addObserver(el, callback)
+        const waypoint = addObserver(el, callback, options)
         vnode._waypoint = waypoint
       }
     },
     updated (el, binding, vnode, oldVnode) {
-      const { active, callback } = binding.value
+      const { active, callback, options } = binding.value
 
       // we remove the old observer anyways
       if (typeof oldVnode._waypoint !== 'undefined') {
@@ -22,7 +22,7 @@ const defineDicrective = (Vue, options) => {
 
       // if user asked for acivation, activate
       if (active) {
-        const waypoint = addObserver(el, callback)
+        const waypoint = addObserver(el, callback, options)
         vnode._waypoint = waypoint
       }
     },
@@ -35,4 +35,4 @@ const defineDicrective = (Vue, options) => {
   })
 }
 
-export default defineDicrective
+export default defineDirective
