@@ -5,7 +5,9 @@ const config = {
   entry: path.resolve(__dirname, 'src', 'index.js'),
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'vue-waypoint.js'
+    filename: 'vue-waypoint.js',
+    library: 'VueWaypoint',
+    libraryTarget: 'umd'
   },
   module: {
     rules: [
