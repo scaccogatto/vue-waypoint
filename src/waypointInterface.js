@@ -9,10 +9,14 @@ const DIRECTION_BOTTOM = 'bottom'
 const DIRECTION_LEFT = 'left'
 
 const direction = (boundingClientRect, oldBoundingClientRect) => {
-  if (boundingClientRect.y < oldBoundingClientRect.y) return DIRECTION_TOP
-  if (boundingClientRect.x > oldBoundingClientRect.x) return DIRECTION_RIGHT
-  if (boundingClientRect.y > oldBoundingClientRect.y) return DIRECTION_BOTTOM
-  if (boundingClientRect.x < oldBoundingClientRect.x) return DIRECTION_LEFT
+  const y = boundingClientRect.y || boundingClientRect.top
+  const x = boundingClientRect.x || boundingClientRect.left
+  const oldY = oldBoundingClientRect.y || oldBoundingClientRect.top
+  const oldX = oldBoundingClientRect.x || oldBoundingClientRect.left
+  if (y < oldY) return DIRECTION_TOP
+  if (x > oldX) return DIRECTION_RIGHT
+  if (y > oldY) return DIRECTION_BOTTOM
+  if (x < oldX) return DIRECTION_LEFT
 }
 
 const extractWaypointData = node => node._waypointData
