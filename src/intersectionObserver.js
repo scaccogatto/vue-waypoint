@@ -12,7 +12,7 @@ const createObserver = (callback, options) => new window.IntersectionObserver(ca
 
 const addObserver = (el, callback, options = defaultObserverOptions) => {
   const observer = createObserver((entries, observer) => observerCallback(entries, callback), options)
-  console.log(observer)
+
   observer.observe(el)
   return observer
 }
