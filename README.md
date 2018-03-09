@@ -2,6 +2,8 @@
 
 > trigger functions based on elements' positions, based on viewport
 
+[![Build Status](https://travis-ci.org/scaccogatto/vue-waypoint.svg?branch=master)](https://travis-ci.org/scaccogatto/vue-waypoint)
+
 ## Installation
 
 ### npm
