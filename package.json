@@ -8,7 +8,7 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "build": "webpack -p"
+    "start": "webpack -p"
   },
   "dependencies": {
     "vue": "^2.5.2"
