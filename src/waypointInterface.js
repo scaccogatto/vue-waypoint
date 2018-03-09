@@ -12,7 +12,7 @@ const direction = (boundingClientRect, oldBoundingClientRect) => {
   if (boundingClientRect.top < oldBoundingClientRect.top) return DIRECTION_TOP
   if (boundingClientRect.left > oldBoundingClientRect.left) return DIRECTION_RIGHT
   if (boundingClientRect.top > oldBoundingClientRect.top) return DIRECTION_BOTTOM
-  if (boundingClientRect.left < oldBoundingClientRect.leftoldX) return DIRECTION_LEFT
+  if (boundingClientRect.left < oldBoundingClientRect.left) return DIRECTION_LEFT
 }
 
 const extractWaypointData = node => node._waypointData
