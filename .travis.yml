@@ -1,0 +1,24 @@
+language: node_js
+
+node_js:
+  - lts/carbon
+
+install:
+  - npm install
+
+script:
+  - npm run start
+
+cache:
+  directories:
+  - node_modules
+
+deploy:
+  provider: npm
+  email: marcoboffo.waves@gmail.com
+  skip_cleanup: true
+  api_key:
+    secure: Ere92n510NOC2adsQMwvZryyzAu1rsxJzCfUP+CS9S12+Zi1+qbaFoz1h7aPXdIvWPaOkLk6NZX37RiXkxxN2wikJ42GAZY7Qb5e87Bo024o0poyQgas2VzIIlJol0pD/GODDZSaJGbNK8Ol1qwRf+SEZcfhe4KG18u/9SHpWMkxEJhHfeo6CFSieKFiSF6nPTXVExyqKW/3CHmIv/IKwDek4Y34JLHzMRNBgAUPkdTqTkURUeIDP7uIghOkp0bcYnej/hPVGdMg9rmQOxrF9JhbI6XGl1iE6UX83XRtb4quBw5Un1nHcaHecgKrfW7tfZoTNedZWLAekGquWtZ1evO9RgDJXM3QPx3nRS45Jj3FriPHXMKRFjnVJaXBSqHGo7DyeHOtdkUjUC1/xBWkqm8KjK+JlfQoIBBC+np+mVym5ddNTDSWC/imY1MiEuO/5eYIGy4GnXM+WnHfbD8DkYne7lyiJ96EoNhO664I/vExClORdOU+mpjP/nLJ+MdnixyVnRxyepDk4zS1vsbWGmADzz//zhK1vaKKYhkBUI0b93PmC/6yg8XV0iQTCbJBRk5qQiykhn8dsx6PIzYxBi4/rFyE/gcjq8tI4UYqopBAQzbcSUT2nk0YxE6RqgqUVKil3ibG+eFFsz8K0YhQzfMF9I4gwojWNoddI8qmOgc=
+  on:
+    repo: scaccogatto/vue-waypoint
+    tags: true
