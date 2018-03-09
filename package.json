@@ -1,6 +1,6 @@
 {
   "name": "vue-waypoint",
-  "version": "3.2.1",
+  "version": "3.2.2",
   "description": "Vue collision detector",
   "main": "dist/vue-waypoint.js",
   "repository": "git@github.com:scaccogatto/vue-waypoint.git",
