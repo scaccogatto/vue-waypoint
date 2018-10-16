@@ -43,7 +43,7 @@ export default {
     intersectionOptions: {
       root: null,
       rootMargin: '0px 0px 0px 0px',
-      thresholds: [0]
+      thresholds: [0, 100]
     } // https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API
   })
   methods: {
