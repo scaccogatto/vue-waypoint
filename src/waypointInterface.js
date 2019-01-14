@@ -1,7 +1,7 @@
 const GOING_IN = 'in'
 const GOING_OUT = 'out'
 
-const going = visibilityRatio => visibilityRatio > 0 ? GOING_IN : GOING_OUT
+const going = isIntersecting => isIntersecting ? GOING_IN : GOING_OUT
 
 const DIRECTION_TOP = 'top'
 const DIRECTION_RIGHT = 'right'
@@ -23,7 +23,7 @@ const extractOldBoundingClientRect = (node, defaultBoundingClientRect) => {
 }
 
 const mapEntry = entry => {
-  const { boundingClientRect, intersectionRatio, target } = entry
+  const { boundingClientRect, isIntersecting, target } = entry
   const oldBoundingClientRect = extractOldBoundingClientRect(target, boundingClientRect)
 
   // save current rect
@@ -31,7 +31,7 @@ const mapEntry = entry => {
 
   return {
     el: target,
-    going: going(intersectionRatio),
+    going: going(isIntersecting),
     direction: direction(boundingClientRect, oldBoundingClientRect),
     _entry: entry
   }
