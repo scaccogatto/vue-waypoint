@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>vue-waypoint</title>
+
+  <style>
+    #app .backlog {
+      position: fixed;
+      top: 0;
+      right: 0;
+      background: black;
+      width: 30%;
+      height: 100vh;
+      color: white;
+      box-sizing: border-box;
+      padding: 30px;
+      margin: 0;
+      display: block;
+      font-size: 20px;
+    }
+
+    #app .backlog span {
+      display: block;
+      line-height: 1.5;
+    }
+
+    #app div {
+      width: 60%;
+      background-color: #7cd7fc;
+      height: 300px;
+      margin: 30px 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #app div:nth-child(even) {
+      background-color: #fc7c7c;
+    }
+
+    #app div.active {
+      border: 3px dashed rgb(0, 0, 0);
+      box-sizing: border-box;
+    }
+
+    #app .blank {
+      height: 100vh;
+    }
+  </style>  
+</head>
+
+<body>
+  <div id="app">
+    <div class="backlog">
+      <span v-for="el of prettyLogs" v-html="el"></span>
+    </div>
+
+    <h1>vue-waypoint</h1>
+
+    <h2>100% threshold</h2>
+
+    <div v-waypoint="{ active: true, callback: logOne }" id="first">#first</div>
+    <div v-waypoint="{ active: true, callback: logOne }" id="second">#second</div>
+    <div v-waypoint="{ active: true, callback: logOne }" id="third">#third</div>
+    <div v-waypoint="{ active: true, callback: logOne }" id="fourth">#fourth</div>
+    <div v-waypoint="{ active: true, callback: logOne }" id="fifth">#fifth</div>
+
+    <h2>50% threshold</h2>
+    <div v-waypoint="{ active: true, callback: logOne, options: { threshold: [0.5] } }" id="first-half">#first-half</div>
+
+    <h2>25%-75% threshold</h2>
+    <div v-waypoint="{ active: true, callback: logOne, options: { threshold: [0.25,0.75] } }" id="second-half">#second-half</div>
+
+    <h2>0% threshold</h2>
+    <div v-waypoint="{ active: true, callback: logOne, options: { threshold: [0] } }" id="third-half">#third-half</div>
+
+    <h2>100% threshold</h2>
+    <div v-waypoint="{ active: true, callback: logOne, options: { threshold: [1] } }" id="fourth-half">#fourth-half</div>
+
+    <div class="blank"></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.22/dist/vue.min.js"></script>
+  <script src="../dist/vue-waypoint.js"></script>
+
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: function () {
+        return {
+          logs: [],
+          halfOpts: { threshold: [0.5] }
+        }
+      },
+      computed: {
+        prettyLogs: {
+          get () {
+            return this.logs.slice(1).slice(-25)
+          }
+        }
+      },
+      methods: {
+        log (txt) {
+          this.logs = this.logs.concat(txt)
+        },
+        logOne ({ el, going, direction }) {
+          this.log('#' + el.getAttribute('id') + ' is ' + going + ' viewport, direction: ' + direction)
+          el.classList.toggle('active', this.$waypointMap.GOING_IN === going)
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>
