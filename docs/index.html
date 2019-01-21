@@ -8,6 +8,8 @@
 
   <title>vue-waypoint</title>
 
+  <link href="https://fonts.googleapis.com/css?family=B612+Mono|Open+Sans" rel="stylesheet">
+
   <style>
     #app .backlog {
       position: fixed;
@@ -21,12 +23,27 @@
       padding: 30px;
       margin: 0;
       display: block;
-      font-size: 20px;
+      font-size: 12px;
+      font-family: 'B612 Mono', monospace;
     }
 
     #app .backlog span {
       display: block;
-      line-height: 1.5;
+      line-height: 2.5;
+    }
+
+    #app .backlog span.log--hint {
+      display: inline;
+      font-weight: bold;
+      color: #fc7c7c;
+    }
+
+    #app .backlog span.log--hint:nth-child(even) {
+      color: #7cd7fc;
+    }
+
+    #app {
+      font-family: 'Open Sans', sans-serif;
     }
 
     #app div {
@@ -51,7 +68,17 @@
     #app .blank {
       height: 100vh;
     }
-  </style>  
+  </style>
+  
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-37553464-3"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-37553464-3', { 'anonymize_ip': true });
+  </script>
 </head>
 
 <body>
@@ -62,7 +89,9 @@
 
     <h1>vue-waypoint</h1>
 
-    <h2>100% threshold</h2>
+    <h2>demo page</h2>
+
+    <h3>100% threshold</h3>
 
     <div v-waypoint="{ active: true, callback: logOne }" id="first">#first</div>
     <div v-waypoint="{ active: true, callback: logOne }" id="second">#second</div>
@@ -70,16 +99,72 @@
     <div v-waypoint="{ active: true, callback: logOne }" id="fourth">#fourth</div>
     <div v-waypoint="{ active: true, callback: logOne }" id="fifth">#fifth</div>
 
-    <h2>50% threshold</h2>
+    <h3>50% threshold</h3>
     <div v-waypoint="{ active: true, callback: logOne, options: { threshold: [0.5] } }" id="first-half">#first-half</div>
 
-    <h2>25%-75% threshold</h2>
-    <div v-waypoint="{ active: true, callback: logOne, options: { threshold: [0.25,0.75] } }" id="second-half">#second-half</div>
+    <h3>25%-75%   <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-37553464-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-    <h2>0% threshold</h2>
-    <div v-waypoint="{ active: true, callback: logOne, options: { threshold: [0] } }" id="third-half">#third-half</div>
+  gtag('config', 'UA-37553464-3');
+</script>threshold</h3>
+    <div v-waypo  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-37553464-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-    <h2>100% threshold</h2>
+  gtag('config', 'UA-37553464-3');
+</script>int="{ active: true, callback: logOne, options: { threshold: [0.25,0.75] } }" id="second-half">#second-half</div>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-37553464-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-37553464-3');
+</script>
+    <h3>0% thres  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-37553464-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-37553464-3');
+</script>hold</h3>
+    <div v-waypo  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-37553464-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-37553464-3');
+</script>int="{ active: true, callback: logOne, options: { threshold: [0] } }" id="third-half">#third-half</div>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-37553464-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-37553464-3');
+</script>
+    <h3>100% thr  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-37553464-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-37553464-3');
+</script>eshold</h3>
     <div v-waypoint="{ active: true, callback: logOne, options: { threshold: [1] } }" id="fourth-half">#fourth-half</div>
 
     <div class="blank"></div>
@@ -109,8 +194,11 @@
           this.logs = this.logs.concat(txt)
         },
         logOne ({ el, going, direction }) {
-          this.log('#' + el.getAttribute('id') + ' is ' + going + ' viewport, direction: ' + direction)
+          this.log(`#${el.getAttribute('id')} is ${this.wrapSpan(going)} viewport, direction: ${this.wrapSpan(direction)}`)
           el.classList.toggle('active', this.$waypointMap.GOING_IN === going)
+        },
+        wrapSpan (txt, cClass = 'log--hint') {
+          return `<span class="${cClass}">${txt}</span>`
         }
       }
     })
