@@ -8,7 +8,14 @@
 
   <title>vue-waypoint</title>
 
-  <link href="https://fonts.googleapis.com/css?family=B612+Mono|Open+Sans" rel="stylesheet">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-37553464-3"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-37553464-3', { 'anonymize_ip': true });
+  </script>
 
   <style>
     #app .backlog {
@@ -23,27 +30,12 @@
       padding: 30px;
       margin: 0;
       display: block;
-      font-size: 12px;
-      font-family: 'B612 Mono', monospace;
+      font-size: 20px;
     }
 
     #app .backlog span {
       display: block;
-      line-height: 2.5;
-    }
-
-    #app .backlog span.log--hint {
-      display: inline;
-      font-weight: bold;
-      color: #fc7c7c;
-    }
-
-    #app .backlog span.log--hint:nth-child(even) {
-      color: #7cd7fc;
-    }
-
-    #app {
-      font-family: 'Open Sans', sans-serif;
+      line-height: 1.5;
     }
 
     #app div {
@@ -68,17 +60,7 @@
     #app .blank {
       height: 100vh;
     }
-  </style>
-  
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-37553464-3"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'UA-37553464-3', { 'anonymize_ip': true });
-  </script>
+  </style>  
 </head>
 
 <body>
@@ -102,69 +84,13 @@
     <h3>50% threshold</h3>
     <div v-waypoint="{ active: true, callback: logOne, options: { threshold: [0.5] } }" id="first-half">#first-half</div>
 
-    <h3>25%-75%   <!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-37553464-3"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <h3>25%-75% threshold</h3>
+    <div v-waypoint="{ active: true, callback: logOne, options: { threshold: [0.25,0.75] } }" id="second-half">#second-half</div>
 
-  gtag('config', 'UA-37553464-3');
-</script>threshold</h3>
-    <div v-waypo  <!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-37553464-3"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <h3>0% threshold</h3>
+    <div v-waypoint="{ active: true, callback: logOne, options: { threshold: [0] } }" id="third-half">#third-half</div>
 
-  gtag('config', 'UA-37553464-3');
-</script>int="{ active: true, callback: logOne, options: { threshold: [0.25,0.75] } }" id="second-half">#second-half</div>
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-37553464-3"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-37553464-3');
-</script>
-    <h3>0% thres  <!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-37553464-3"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-37553464-3');
-</script>hold</h3>
-    <div v-waypo  <!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-37553464-3"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-37553464-3');
-</script>int="{ active: true, callback: logOne, options: { threshold: [0] } }" id="third-half">#third-half</div>
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-37553464-3"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-37553464-3');
-</script>
-    <h3>100% thr  <!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-37553464-3"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-37553464-3');
-</script>eshold</h3>
+    <h3>100% threshold</h3>
     <div v-waypoint="{ active: true, callback: logOne, options: { threshold: [1] } }" id="fourth-half">#fourth-half</div>
 
     <div class="blank"></div>
