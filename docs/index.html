@@ -8,6 +8,8 @@
 
   <title>vue-waypoint</title>
 
+  <link href="https://fonts.googleapis.com/css?family=B612+Mono|Open+Sans" rel="stylesheet">
+
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-37553464-3"></script>
   <script>
@@ -17,50 +19,65 @@
     gtag('config', 'UA-37553464-3', { 'anonymize_ip': true });
   </script>
 
-  <style>
-    #app .backlog {
-      position: fixed;
-      top: 0;
-      right: 0;
-      background: black;
-      width: 30%;
-      height: 100vh;
-      color: white;
-      box-sizing: border-box;
-      padding: 30px;
-      margin: 0;
-      display: block;
-      font-size: 20px;
-    }
+<style>
+  #app .backlog {
+    position: fixed;
+    top: 0;
+    right: 0;
+    background: black;
+    width: 30%;
+    height: 100vh;
+    color: white;
+    box-sizing: border-box;
+    padding: 30px;
+    margin: 0;
+    display: block;
+    font-size: 12px;
+    font-family: 'B612 Mono', monospace;
+  }
 
-    #app .backlog span {
-      display: block;
-      line-height: 1.5;
-    }
+  #app .backlog span {
+    display: block;
+    line-height: 2.5;
+  }
 
-    #app div {
-      width: 60%;
-      background-color: #7cd7fc;
-      height: 300px;
-      margin: 30px 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+  #app .backlog span.log--hint {
+    display: inline;
+    font-weight: bold;
+    color: #fc7c7c;
+  }
 
-    #app div:nth-child(even) {
-      background-color: #fc7c7c;
-    }
+  #app .backlog span.log--hint:nth-child(even) {
+    color: #7cd7fc;
+  }
 
-    #app div.active {
-      border: 3px dashed rgb(0, 0, 0);
-      box-sizing: border-box;
-    }
+  #app {
+    font-family: 'Open Sans', sans-serif;
+  }
 
-    #app .blank {
-      height: 100vh;
-    }
-  </style>  
+  #app div {
+    width: 60%;
+    background-color: #7cd7fc;
+    height: 300px;
+    margin: 30px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #app div:nth-child(even) {
+    background-color: #fc7c7c;
+  }
+
+  #app div.active {
+    border: 3px dashed rgb(0, 0, 0);
+    box-sizing: border-box;
+  }
+
+  #app .blank {
+    height: 100vh;
+  }
+</style>
 </head>
 
 <body>
