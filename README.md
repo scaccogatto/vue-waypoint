@@ -5,7 +5,7 @@
 [![Build Status](https://travis-ci.org/scaccogatto/vue-waypoint.svg?branch=master)](https://travis-ci.org/scaccogatto/vue-waypoint)
 
 ## Demo
-[demo page](https://vue-waypoint.marcoboffo.me/)
+[demo page](https://scaccogatto.github.io/vue-waypoint/)
 
 ## Installation
 
