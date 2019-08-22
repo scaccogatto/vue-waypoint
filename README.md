@@ -119,3 +119,45 @@ They are also available as **standalone-plugin**, just go with `VueWaypoint.addO
 ## Caveats
 
 Waypoint first trigger is on page load, this means it *actually* triggers its own `callback` with `direction = undefined` (yes, we can't determine direction if no scroll has been made by the user)
+
+## How to use with Nuxt
+
+You have to make certain changes when using vue-waypoint in a nuxt application mainly because it is designed for client side. Otherwise this could cause errors due to references to the `window` object.
+
+### 1. Add the package to the project as usual
+
+```bash
+$ npm install vue-waypoint --save
+```
+
+### 2. Create new plugin file
+Create new file under `plugins` folder and name it `v-waypoint.client.js` (`.client` suffix is required so it will be used only in the browser - [see here](https://nuxtjs.org/guide/plugins/#client-side-only))
+
+### 3. Add the following code to `v-waypoint.client.js` to install the `vue-waypoint`
+
+```js
+import Vue from "vue"
+import VueWaypoint from "vue-waypoint"
+
+Vue.use(VueWaypoint)
+```
+
+### 4. Update the `nuxt.config.js` to refer the plugin file
+```
+...
+  plugins: [    
+    ...
+    "~/plugins/v-waypoint.client.js"
+  ],
+...
+```
+
+### 5. Remember to enclose the usage of `v-waypoint` tags with the `<no-ssr>`
+This will make sure `v-waypoint` is rendered and used only in client side.
+```js
+    <no-ssr>
+      <v-waypoint
+        @waypoint="loadMore"
+      ></v-waypoint>
+    </no-ssr>
+```
