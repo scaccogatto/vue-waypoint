@@ -143,7 +143,7 @@ Vue.use(VueWaypoint)
 ```
 
 ### 4. Update the `nuxt.config.js` to refer the plugin file
-```
+```js
 ...
   plugins: [    
     ...
@@ -154,10 +154,8 @@ Vue.use(VueWaypoint)
 
 ### 5. Remember to enclose the usage of `v-waypoint` tags with the `<no-ssr>`
 This will make sure `v-waypoint` is rendered and used only in client side.
-```js
+```html
     <no-ssr>
-      <v-waypoint
-        @waypoint="loadMore"
-      ></v-waypoint>
+      <v-waypoint @waypoint="loadMore"></v-waypoint>
     </no-ssr>
 ```
