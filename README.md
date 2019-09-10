@@ -143,13 +143,13 @@ Vue.use(VueWaypoint)
 ```
 
 ### 4. Update the `nuxt.config.js` to reference the plugin file
-The `ssr: false` flag will make sure `v-waypoint` is rendered and used only in the client-side bundle.
+The `mode: 'client'` option will make sure `v-waypoint` is rendered and used only in the client-side bundle.
 ```js
 ...
   plugins: [    
     ...
     { src: "~/plugins/v-waypoint.client.js",
-      ssr: false
+      mode: 'client'
     }
   ],
 ...
