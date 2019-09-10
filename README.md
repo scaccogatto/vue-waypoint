@@ -142,20 +142,15 @@ import VueWaypoint from "vue-waypoint"
 Vue.use(VueWaypoint)
 ```
 
-### 4. Update the `nuxt.config.js` to refer the plugin file
+### 4. Update the `nuxt.config.js` to reference the plugin file
+The `mode: 'client'` option will make sure `v-waypoint` is rendered and used only in the client-side bundle.
 ```js
 ...
   plugins: [    
     ...
-    "~/plugins/v-waypoint.client.js"
+    { src: "~/plugins/v-waypoint.client.js",
+      mode: 'client'
+    }
   ],
 ...
-```
-
-### 5. Remember to enclose the usage of `v-waypoint` tags with the `<no-ssr>`
-This will make sure `v-waypoint` is rendered and used only in client side.
-```html
-    <no-ssr>
-      <v-waypoint @waypoint="loadMore"></v-waypoint>
-    </no-ssr>
 ```
