@@ -1,5 +1,3 @@
-// polyfill
-import {} from 'intersection-observer'
 import { mapEntry } from './waypointInterface'
 
 const defaultObserverOptions = {}
@@ -17,6 +15,6 @@ const addObserver = (el, callback, options = defaultObserverOptions) => {
   return observer
 }
 
-const removeObserver = (observer, el) =>  observer.unobserve(el)
+const removeObserver = (observer, el) => observer.unobserve(el)
 
 export { addObserver, removeObserver }
