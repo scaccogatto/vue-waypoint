@@ -23,7 +23,6 @@
     "eslint-plugin-node": "^5.2.1",
     "eslint-plugin-promise": "^3.6.0",
     "eslint-plugin-standard": "^3.0.1",
-    "intersection-observer": "^0.4.2",
     "ramda": "^0.25.0",
     "webpack": "^3.8.1"
   }

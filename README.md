@@ -120,6 +120,8 @@ They are also available as **standalone-plugin**, just go with `VueWaypoint.addO
 
 Waypoint first trigger is on page load, this means it *actually* triggers its own `callback` with `direction = undefined` (yes, we can't determine direction if no scroll has been made by the user)
 
+You may need an [IntersectionObserver](https://github.com/w3c/IntersectionObserver/tree/master/polyfill) polyfill for browsers like IE11
+
 ## How to use with Nuxt
 
 You have to make certain changes when using vue-waypoint in a nuxt application mainly because it is designed for client side. Otherwise this could cause errors due to references to the `window` object.
