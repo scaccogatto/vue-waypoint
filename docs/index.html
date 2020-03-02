@@ -96,7 +96,7 @@
     <div v-waypoint="{ active: true, callback: logOne }" id="second">#second</div>
     <div v-waypoint="{ active: true, callback: logOne }" id="third">#third</div>
     <div v-waypoint="{ active: true, callback: logOne }" id="fourth">#fourth</div>
-    <div v-waypoint="{ active: true, callback: logOne }" id="fifth">#fifth</div>
+    <div v-waypoint="{ active: true, callback: logEvent }" id="fifth" @going-in="eventFromCB(fifthCustomData)">#fifth</div>
 
     <h3>50% threshold</h3>
     <div v-waypoint="{ active: true, callback: logOne, options: { threshold: [0.5] } }" id="first-half">#first-half</div>
@@ -122,7 +122,8 @@
       data: function () {
         return {
           logs: [],
-          halfOpts: { threshold: [0.5] }
+          halfOpts: { threshold: [0.5] },
+          fifthCustomData: 'I am here!'
         }
       },
       computed: {
@@ -133,12 +134,22 @@
         }
       },
       methods: {
+        eventFromCB(text) {
+          this.log('Custom event text: ' + text)
+        },
         log (txt) {
           this.logs = this.logs.concat(txt)
         },
         logOne ({ el, going, direction }) {
           this.log(`#${el.getAttribute('id')} is ${this.wrapSpan(going)} viewport, direction: ${this.wrapSpan(direction)}`)
           el.classList.toggle('active', this.$waypointMap.GOING_IN === going)
+        },
+        logEvent (e) {
+          this.logOne(e)
+
+          if (this.$waypointMap.GOING_IN !== e.going) return
+          const outEvent = new CustomEvent('going-in')
+          e.el.dispatchEvent(outEvent)
         },
         wrapSpan (txt, cClass = 'log--hint') {
           return `<span class="${cClass}">${txt}</span>`
