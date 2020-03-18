@@ -12,7 +12,7 @@ const defineDirective = Vue => {
         vnode._waypoint = waypoint
       }
     },
-    updated (el, binding, vnode, oldVnode) {
+    update (el, binding, vnode, oldVnode) {
       const { active, callback, options } = binding.value
 
       // we remove the old observer anyways
