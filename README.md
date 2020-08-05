@@ -151,7 +151,7 @@ The `mode: 'client'` option will make sure `v-waypoint` is rendered and used onl
   plugins: [    
     ...
     {
-      src: "~/plugins/v-waypoint.client.js",
+      src: "~/plugins/v-waypoint.js",
       mode: 'client'
     }
   ],
