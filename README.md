@@ -2,7 +2,7 @@
 
 > trigger functions based on elements' positions, based on viewport
 
-[![Build Status](https://travis-ci.org/scaccogatto/vue-waypoint.svg?branch=master)](https://travis-ci.org/scaccogatto/vue-waypoint)
+![Master](https://github.com/scaccogatto/vue-waypoint/workflows/Master/badge.svg)
 
 ## Demo
 [demo page](https://scaccogatto.github.io/vue-waypoint/)
@@ -133,7 +133,7 @@ $ npm install vue-waypoint --save
 ```
 
 ### 2. Create new plugin file
-Create new file under `plugins` folder and name it `v-waypoint.client.js` (`.client` suffix is required so it will be used only in the browser - [see here](https://nuxtjs.org/guide/plugins/#client-side-only))
+Create new file under `plugins` folder and name it `v-waypoint.js`
 
 ### 3. Add the following code to `v-waypoint.client.js` to install the `vue-waypoint`
 
@@ -150,7 +150,8 @@ The `mode: 'client'` option will make sure `v-waypoint` is rendered and used onl
 ...
   plugins: [    
     ...
-    { src: "~/plugins/v-waypoint.client.js",
+    {
+      src: "~/plugins/v-waypoint.client.js",
       mode: 'client'
     }
   ],
