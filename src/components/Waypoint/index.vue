@@ -10,7 +10,9 @@ import {
   defineComponent,
   getCurrentInstance,
   onBeforeUnmount,
+  onBeforeUpdate,
   onMounted,
+  onUpdated,
   Ref,
   ref,
   watch
@@ -67,16 +69,25 @@ export default defineComponent({
     );
 
     watch(activable, () => {
-      if (!activable.value) return;
-
-      // start observing
       const element: Element = instance.refs.el as Element;
-      observer.value.observe(element);
+      if (activable.value) return observer.value.observe(element);
+
+      return observer.value.unobserve(element);
+    });
+
+    watch(going, () => {
+      if (typeof going.value === "undefined") return;
+      instance.emit(`going-${going.value.toString().toLowerCase()}`);
+    });
+
+    watch(direction, () => {
+      if (typeof direction.value === "undefined") return;
+      instance.emit(`direction-${direction.value.toString().toLowerCase()}`);
     });
 
     onMounted(() => (mounted.value = true));
-    // onBeforeUpdate(() => (mounted.value = false));
-    // onUpdated(() => (mounted.value = true));
+    onBeforeUpdate(() => (mounted.value = false));
+    onUpdated(() => (mounted.value = true));
     onBeforeUnmount(() => (mounted.value = false));
 
     const goingClass: ComputedRef<string | undefined> = computed(() => {
