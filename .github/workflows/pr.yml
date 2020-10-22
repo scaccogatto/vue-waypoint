@@ -27,4 +27,4 @@ jobs:
     - run: npm install
     - run: npm run build
     - run: npm run test:unit
-    - run: npm run build -- --target lib --name vue-waypoint src/components/Waypoint/index.vue
+    - run: npm run build -- --target lib --name vue-waypoint src/components/Waypoint/index.ts
