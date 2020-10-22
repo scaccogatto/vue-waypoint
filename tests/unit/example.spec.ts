@@ -1,6 +1,6 @@
 import { shallowMount } from "@vue/test-utils";
 import setupIntersectionObserverMock from "./setupIntersectionObserverMock";
-import Waypoint from "@/components/Waypoint/index.vue";
+import { Waypoint } from "@/components/Waypoint/index.ts";
 
 beforeEach(() => {
   const mockIntersectionObserver = jest.fn();

@@ -8,8 +8,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import Waypoint from "./components/Waypoint/index.vue";
-import { WaypointState } from "./components/Waypoint/observer";
+import { Waypoint, WaypointState } from "./components/Waypoint/index";
 
 export default defineComponent({
   name: "App",

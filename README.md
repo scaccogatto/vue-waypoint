@@ -8,9 +8,18 @@
 
 [DEMO](https://vue-waypoint.netlify.app/)
 
-More info on browser's console.
+Open your browser console and watch what's going on.
 
-## Installation
+## Features
+
+- [x] No dependencies
+- [x] Flexible
+- [x] Typescript
+- [x] Battle tested
+- [x] Customizable
+- [x] Solid project (3+ years)
+
+## Getting started
 
 ### npm
 
@@ -18,7 +27,7 @@ More info on browser's console.
 npm i vue-waypoint
 ```
 
-### Vue
+### Vue component
 
 ```html
 <template>
@@ -28,7 +37,7 @@ npm i vue-waypoint
 
 ```html
 <script>
-import VueWaypoint from 'vue-waypoint'
+import { VueWaypoint } from 'vue-waypoint'
 
 export default {
   name: "App",
@@ -60,10 +69,16 @@ export default {
 
 ### `active`
 
+- [x] Can use a reactive variable
+- [x] Can set `true`/`false` dinamically
+
 - Enable the waypoint: `<Waypoint :active="true" />`
 - Disable the waypoint: `<Waypoint :active="false" />`
 
 ### `options`
+
+- [x] Useful for inner div detection
+- [x] Trigger `change` event a portion of the element is completely on screen
 
 - Custom `IntersectionObserver` options: `<Waypoint :options="options" />`
 
@@ -105,3 +120,11 @@ WaypointState {
   direction: 'UP' | 'DOWN' | 'LEFT' | 'RIGHT';
 };
 ```
+
+## CSS
+
+The component comes with three types of classes:
+
+- `waypoint`: set when the waypoint is ready
+- `going-in`, `going-out`: dinamically changed whant the waypoint comes in and out
+- `direction-up`, `direction-down`, `direction-left`, `direction-right`: dinamically changed when the direction changes
