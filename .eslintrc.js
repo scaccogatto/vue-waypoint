@@ -30,5 +30,6 @@ module.exports = {
         jest: true
       }
     }
-  ]
+  ],
+  ignorePatterns: ["**/shims-vue.d.ts"]
 };

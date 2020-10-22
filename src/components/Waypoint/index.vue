@@ -1,7 +1,3 @@
-<template>
-  <div ref="el" class="waypoint" :class="stringClass"></div>
-</template>
-
 <script lang="ts">
 import {
   ComponentInternalInstance,
@@ -9,6 +5,7 @@ import {
   ComputedRef,
   defineComponent,
   getCurrentInstance,
+  h,
   onBeforeUnmount,
   onBeforeUpdate,
   onMounted,
@@ -17,7 +14,7 @@ import {
   ref,
   watch
 } from "vue";
-import { Going, Direction, createObserver } from "./observer";
+import { createObserver, Direction, Going, WaypointState } from "./observer";
 
 export default defineComponent({
   name: "Waypoint",
@@ -26,29 +23,32 @@ export default defineComponent({
       type: Boolean,
       default: () => true
     },
-    callback: {
-      type: Function,
-      default: () => {}
-    },
     options: {
       type: Object,
       validator: (value: IntersectionObserverInit | undefined) =>
         typeof value === "object",
       default: () => ({})
+    },
+    tag: {
+      type: String,
+      default: () => "div"
     }
-    // todo: tag type
   },
-  setup(props) {
+  setup(props, context) {
     // check for browser compatibility
     const compatible: boolean =
       typeof window.IntersectionObserver === "function";
 
-    const going: Ref<Going | undefined> = ref(undefined);
-    const direction: Ref<Direction | undefined> = ref(undefined);
+    // watch for mount
     const mounted: Ref<boolean> = ref(false);
 
+    // element DOM reference
+    const element: Ref<Element | null> = ref(null);
+
+    // activable conditions
     const activable: ComputedRef<boolean> = computed(
-      () => compatible && mounted.value && props.active
+      () =>
+        compatible && mounted.value && props.active && element.value !== null
     );
 
     const instance: ComponentInternalInstance | null = getCurrentInstance();
@@ -59,56 +59,55 @@ export default defineComponent({
       return;
     }
 
-    const boundingClientRect: Ref<DOMRectReadOnly | undefined> = ref(undefined);
+    const waypointState: Ref<WaypointState | undefined> = ref(undefined);
+    const updateWaypointState = (newState: WaypointState) =>
+      (waypointState.value = newState);
+
     const observer: Ref<IntersectionObserver> = ref(
-      createObserver(instance)(props.callback, props.options)(
-        boundingClientRect,
-        going,
-        direction
-      )
+      createObserver(props.options)(updateWaypointState)
     );
 
     watch(activable, () => {
-      const element: Element = instance.refs.el as Element;
-      if (activable.value) return observer.value.observe(element);
+      // cannot observer or unobserve if the element is null
+      if (element.value === null) return;
 
-      return observer.value.unobserve(element);
+      if (activable.value) return observer.value.observe(element.value);
+      else return observer.value.unobserve(element.value);
     });
 
-    watch(going, () => {
-      if (typeof going.value === "undefined") return;
-      instance.emit(`going-${going.value.toString().toLowerCase()}`);
+    watch(waypointState, () => {
+      if (typeof waypointState.value === "undefined") return;
+      context.emit("change", waypointState.value);
     });
 
-    watch(direction, () => {
-      if (typeof direction.value === "undefined") return;
-      instance.emit(`direction-${direction.value.toString().toLowerCase()}`);
-    });
-
+    // bind and unbind IntersectionObserver as needed
     onMounted(() => (mounted.value = true));
     onBeforeUpdate(() => (mounted.value = false));
     onUpdated(() => (mounted.value = true));
     onBeforeUnmount(() => (mounted.value = false));
 
-    const goingClass: ComputedRef<string | undefined> = computed(() => {
-      if (!going.value) return;
-      return `going-${going.value.toString().toLowerCase()}`;
+    // css classes
+    const goingClass: ComputedRef<string> = computed(() => {
+      const going: Going | undefined = waypointState.value?.going;
+      if (typeof going === "undefined") return "";
+      return `going-${going.toString().toLowerCase()}`;
     });
 
     const directionClass: ComputedRef<string | undefined> = computed(() => {
-      if (!direction.value) return;
-      return `direction-${direction.value.toString().toLowerCase()}`;
+      const direction: Direction | undefined = waypointState.value?.direction;
+      if (typeof direction === "undefined") return "";
+      return `direction-${direction.toString().toLowerCase()}`;
     });
 
     const stringClass: ComputedRef<string> = computed(() => {
-      return [goingClass.value, directionClass.value]
-        .filter(portion => typeof portion === "string")
-        .join(" ");
+      return [goingClass.value, directionClass.value].join(" ").trim();
     });
 
-    return {
-      stringClass
-    };
+    return () =>
+      h(props.tag, {
+        ref: element,
+        class: `waypoint ${stringClass.value}`.trim()
+      });
   }
 });
 </script>

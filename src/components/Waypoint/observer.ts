@@ -1,4 +1,9 @@
-import { ComponentInternalInstance, Ref } from "vue";
+import { ref, Ref } from "vue";
+
+export type WaypointState = {
+  going: Going | undefined;
+  direction: Direction | undefined;
+};
 
 export enum Going {
   In = "IN",
@@ -12,7 +17,11 @@ export enum Direction {
   Right = "RIGHT"
 }
 
-export const toDirection = (
+const toGoing = (isIntersecting: boolean): Going => {
+  return isIntersecting ? Going.In : Going.Out;
+};
+
+const toDirection = (
   rect: DOMRectReadOnly,
   oldRect: DOMRectReadOnly
 ): Direction | undefined => {
@@ -22,14 +31,11 @@ export const toDirection = (
   if (rect.left < oldRect.left) return Direction.Left;
 };
 
-export const createObserver = (instance: ComponentInternalInstance) => (
-  callback: Function,
+export const createObserver = (
   options: IntersectionObserverInit | undefined
-) => (
-  boundingClientRect: Ref<DOMRectReadOnly | undefined>,
-  going: Ref<Going | undefined>,
-  direction: Ref<Direction | undefined>
-) => {
+) => (callback: Function) => {
+  const boundingClientRect: Ref<DOMRectReadOnly | undefined> = ref(undefined);
+
   return new window.IntersectionObserver(
     (entries: IntersectionObserverEntry[]) => {
       const entry: IntersectionObserverEntry | undefined = entries[0];
@@ -46,17 +52,18 @@ export const createObserver = (instance: ComponentInternalInstance) => (
         boundingClientRect.value = entry.boundingClientRect;
       }
 
-      going.value = entry.isIntersecting ? Going.In : Going.Out;
-      direction.value = toDirection(
-        entry.boundingClientRect,
-        boundingClientRect.value
-      );
+      // create a new state and notify
+      const waypointState: WaypointState = {
+        going: toGoing(entry.isIntersecting),
+        direction: toDirection(
+          entry.boundingClientRect,
+          boundingClientRect.value
+        )
+      };
+      callback(waypointState);
 
       // save the rect for next matching
       boundingClientRect.value = entry.boundingClientRect;
-
-      // userland callback
-      callback(going, direction, instance);
     },
     options
   );

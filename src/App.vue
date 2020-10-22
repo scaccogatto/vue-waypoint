@@ -2,14 +2,14 @@
   <Waypoint
     v-for="i of Array.from({ length: testSize })"
     :key="i"
-    :callback="printCallback"
+    @change="printCallback"
   />
 </template>
 
 <script lang="ts">
-import { ComponentInternalInstance, defineComponent, Ref, unref } from "vue";
+import { defineComponent } from "vue";
 import Waypoint from "./components/Waypoint/index.vue";
-import { Direction, Going } from "./components/Waypoint/observer";
+import { WaypointState } from "./components/Waypoint/observer";
 
 export default defineComponent({
   name: "App",
@@ -17,15 +17,10 @@ export default defineComponent({
     Waypoint
   },
   setup() {
-    const printCallback = (
-      going: Ref<Going | undefined>,
-      direction: Ref<Direction | undefined>,
-      instance: ComponentInternalInstance
-    ) => {
+    const printCallback = (waypointState: WaypointState) => {
       console.info({
-        uid: instance.uid,
-        going: unref(going),
-        direction: unref(direction)
+        going: waypointState.going,
+        direction: waypointState.direction
       });
     };
 
