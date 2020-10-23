@@ -1,7 +1,9 @@
 name: Master
+
 on:
-  release:
-    types: [created]
+  push:
+    branches:
+      - vue2
 
 jobs:
   cancel:
