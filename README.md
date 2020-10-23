@@ -12,7 +12,7 @@
 ### npm
 
 ```bash
-$ npm install vue-waypoint --save-dev
+$ npm install vue-waypoint@3.x.x
 ```
 
 ### Vue
