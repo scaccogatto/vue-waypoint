@@ -113,6 +113,24 @@ const options: IntersectionObserverInit = {
 - Waypoint as span: `<Waypoint :tag="'span'" /> --> renders --> <span class="waypoint"></span>`
 - Waypoint as p: `<Waypoint :tag="'p'" /> --> renders --> <p class="waypoint"></p>`
 
+## CSS helpers
+
+The component comes with three classes:
+
+- `waypoint`: set when the waypoint is ready
+- `going-in`, `going-out`: dinamically changed when the waypoint comes in and out
+- `direction-up`, `direction-down`, `direction-left`, `direction-right`: dinamically changed when the direction changes
+
+- [x] Zero configuration needed
+- [x] Useful for simple CSS animations
+
+Examples:
+
+- `<Waypoint class="waypoint going-in direction-up" />` - the element is visible and came from bottom and is going top (natural scroll)
+- `<Waypoint class="waypoint going-in direction-down" />` - the element is visible and came from top and is going up (reverse natural scroll)
+- `<Waypoint class="waypoint going-out direction-up" />` - the element is not visible and came from bottom and is going top
+- `<Waypoint class="waypoint going-out direction-down" />` - the element is not visible and came from top and is going up
+
 ## Events
 
 ### `change`
@@ -135,21 +153,6 @@ WaypointState {
   direction: 'UP' | 'DOWN' | 'LEFT' | 'RIGHT';
 };
 ```
-
-## CSS helpers
-
-The component comes with three classes:
-
-- `waypoint`: set when the waypoint is ready
-- `going-in`, `going-out`: dinamically changed whant the waypoint comes in and out
-- `direction-up`, `direction-down`, `direction-left`, `direction-right`: dinamically changed when the direction changes
-
-Examples:
-
-- `<div class="waypoint going-in direction-up" />` - the element is visible and came from bottom and is going top (natural scroll)
-- `<div class="waypoint going-in direction-down" />` - the element is visible and came from top and is going up (reverse natural scroll)
-- `<div class="waypoint going-out direction-up" />` - the element is not visible and came from bottom and is going top
-- `<div class="waypoint going-out direction-down" />` - the element is not visible and came from top and is going up
 
 ## Development
 
