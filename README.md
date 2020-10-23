@@ -150,3 +150,10 @@ Examples:
 - `<div class="waypoint going-in direction-down" />` - the element is visible and came from top and is going up (reverse natural scroll)
 - `<div class="waypoint going-out direction-up" />` - the element is not visible and came from bottom and is going top
 - `<div class="waypoint going-out direction-down" />` - the element is not visible and came from top and is going up
+
+## Development
+
+1. Fork the repository
+2. Run the project (`npm i && npm run serve`)
+3. Follow [Conventional Commits spec](https://www.conventionalcommits.org/en/v1.0.0/) for your commits
+4. Open a pull request
