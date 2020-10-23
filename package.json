@@ -1,12 +1,12 @@
 {
   "name": "vue-waypoint",
-  "version": "0.1.0",
-  "private": true,
+  "version": "3.5.0",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "release": "standard-version"
   },
   "dependencies": {
     "core-js": "^3.6.5",
@@ -30,6 +30,7 @@
     "eslint-plugin-vue": "^7.0.0-0",
     "lint-staged": "^9.5.0",
     "prettier": "^1.19.1",
+    "standard-version": "^9.0.0",
     "typescript": "~3.9.3",
     "vue-jest": "^5.0.0-0"
   },
