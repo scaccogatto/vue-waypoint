@@ -1,7 +1,9 @@
-name: Master
+name: Release
+
 on:
-  release:
-    types: [created]
+  push:
+    tags:
+      - 'v*'
 
 jobs:
   cancel:
@@ -20,10 +22,10 @@ jobs:
     # Setup .npmrc file to publish to npm
     - uses: actions/setup-node@v1
       with:
-        node-version: '8.9.x'
+        node-version: '12.x.x'
         registry-url: 'https://registry.npmjs.org'
     - run: npm install
-    - run: npm run start
+    - run: npm run build -- --target lib --name vue-waypoint src/components/Waypoint/index.ts
     - run: npm publish
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

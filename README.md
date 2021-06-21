@@ -1,159 +1,162 @@
 # VueWaypoint
 
-> trigger functions based on elements' positions, based on viewport
+> trigger functions and events based on the element position on the screen
 
-![Master](https://github.com/scaccogatto/vue-waypoint/workflows/Master/badge.svg)
+![Latest Release](https://github.com/scaccogatto/vue-waypoint/workflows/Release/badge.svg)
+
+## Vue2 and Nuxt version
+
+[vue-waypoint for Vue2 repository](https://github.com/scaccogatto/vue-waypoint/tree/vue2)
 
 ## Demo
-[demo page](https://scaccogatto.github.io/vue-waypoint/)
 
-## Installation
+[Simple demo page](https://vue-waypoint.netlify.app/)
+
+Open your browser console and see what's going on while scrolling up and down
+
+## Features
+
+- [x] Vue 3
+- [x] No dependencies
+- [x] Flexible
+- [x] Typescript
+- [x] Battle tested
+- [x] Customizable
+- [x] Solid project (3+ years)
+
+## Getting started
 
 ### npm
 
 ```bash
-$ npm install vue-waypoint --save-dev
+npm i vue-waypoint
 ```
 
-### Vue
-
-```js
-import Vue from 'vue'
-import VueWaypoint from 'vue-waypoint'
-
-// Waypoint plugin
-Vue.use(VueWaypoint)
-```
-
-## Usage
-
-VueWaypoint is a [directive](https://vuejs.org/v2/guide/syntax.html#Directives) named `v-waypoint`
-
-### Template
+### Vue component
 
 ```html
 <template>
-  <div v-waypoint="{ active: true, callback: onWaypoint, options: intersectionOptions }"></div>
+  <Waypoint @change="onChange" />
 </template>
-
 ```
 
-### Javascript
+```html
+<script lang="ts">
+import { defineComponent } from "vue";
+import { VueWaypoint } from 'vue-waypoint'
 
-```js
-export default {
-  data: () => ({
-    intersectionOptions: {
-      root: null,
-      rootMargin: '0px 0px 0px 0px',
-      threshold: [0, 1] // [0.25, 0.75] if you want a 25% offset!
-    } // https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API
-  })
-  methods: {
-    onWaypoint ({ going, direction }) {
-      // going: in, out
-      // direction: top, right, bottom, left
-      if (going === this.$waypointMap.GOING_IN) {
-        console.log('waypoint going in!')
-      }
+export default defineComponent({
+  name: "SomeComponent",
+  components: {
+    Waypoint
+  },
+  setup() {
+    const onChange = (waypointState) => {
+      // Going can be:
+      // IN
+      // OUT
+      console.log(waypointState.going);
 
-      if (direction === this.$waypointMap.DIRECTION_TOP) {
-        console.log('waypoint going top!')
-      }
+      // Direction can be:
+      // UP
+      // DOWN
+      // LEFT
+      // RIGHT
+      console.log(waypointState.direction);
     }
+
+    return { onChange };
   }
-}
+});
+</script>
 ```
 
-## API
+## Props
 
-### Directive's options
+### `active`
 
-- `active [boolean]`: set this parameter as you wish, changing dynamically the waypoint status (it removes and adds the waypoint physically)
+- [x] Can use a reactive variable
+- [x] Can set `true`/`false` dinamically
 
-- `callback [function]`: every time the waypoint triggers this function will be called with a `Waypoint` object as parameter
+Usage:
 
-- `options [object]`: you can leave this `undefined` or follow [IntersectionObserver API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) (options)
+- Enable the waypoint: `<Waypoint :active="true" />`
+- Disable the waypoint: `<Waypoint :active="false" />`
 
-### Waypoint object
+### `options`
 
-Each callback call comes with a `Waypoint` object defined as follows:
+- [x] Useful for inner div detection
+- [x] Trigger `change` event a portion of the element is completely on screen
+- [x] Is an [official IntersectionObserverInit implementation](https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/IntersectionObserver)
+
+Usage:
+
+- Set a custom `IntersectionObserver` options: `<Waypoint :options="options" />`
+- Read what you can do with `options`: [IntersectionObserverInit docs](https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/IntersectionObserver)
+
+Options example:
 
 ```js
-{
-  el: Node,
-  going: String,
-  direction: String,
-  _entry: IntersectionObserverEntry
-}
+const options: IntersectionObserverInit = {
+  root: document,
+  rootMargin: '0px 0px 0px 0px',
+  threshold: [0.25, 0.75]
+};
 ```
 
-You can map `going` and `direction` with the following **global** map, callable in every Vue's Component:
+### `tag`
 
-`this.$waypointMap`
+- [x] Set your preferred tag for the element
+- [x] Defaults to `div`
 
-Then you can compare map's elements with the callback's parameters:
+- Waypoint as div: `<Waypoint :tag="'div'" /> --> renders --> <div class="waypoint"></div>`
+- Waypoint as span: `<Waypoint :tag="'span'" /> --> renders --> <span class="waypoint"></span>`
+- Waypoint as p: `<Waypoint :tag="'p'" /> --> renders --> <p class="waypoint"></p>`
+
+## CSS helpers
+
+- [x] Zero configuration needed
+- [x] Useful for simple CSS animations
+
+The component comes with three classes:
+
+- `waypoint`: set when the waypoint is ready
+- `going-in`, `going-out`: dinamically changed when the waypoint comes in and out
+- `direction-up`, `direction-down`, `direction-left`, `direction-right`: dinamically changed when the direction changes
+
+Examples:
+
+- `<Waypoint class="waypoint going-in direction-up" />` - the element is visible and came from bottom and is going top (natural scroll)
+- `<Waypoint class="waypoint going-in direction-down" />` - the element is visible and came from top and is going up (reverse natural scroll)
+- `<Waypoint class="waypoint going-out direction-up" />` - the element is not visible and came from bottom and is going top
+- `<Waypoint class="waypoint going-out direction-down" />` - the element is not visible and came from top and is going up
+
+## Events
+
+### `change`
+
+Emitted every time the waypoint detects a change.
+
+```html
+<template>
+  <Waypoint @change="onChange" />
+</template>
+```
 
 ```js
-if (direction === this.$waypointMap.DIRECTION_TOP) {}
+const changeFunction = (waypointState) => {..}
 ```
-
-### Public API methods
-
-- `VueWaypoint.addObserver (Element el, function callback, Object options)`
-
-- `VueWaypoint.removeObserver (Element el, function callback)`
-
-- `VueWaypoint.map`
-
-## Best practices
-
-You are encouraged to use `v-waypoint` directive since it follows the Vue's flow, *anyway* you can progammatically add new waypoints as you like, even outside Vue's context.
-
-This can be accomplished with `addObserver` and `removeObserver`.
-
-You can call them inside **Vue's components** with `this.$addObserver` and `this.$removeObserver`.
-
-They are also available as **standalone-plugin**, just go with `VueWaypoint.addObserver` and `VueWaypoint.removeObserver`.
-
-## Caveats
-
-Waypoint first trigger is on page load, this means it *actually* triggers its own `callback` with `direction = undefined` (yes, we can't determine direction if no scroll has been made by the user)
-
-You may need an [IntersectionObserver](https://github.com/w3c/IntersectionObserver/tree/master/polyfill) polyfill for browsers like IE11
-
-## How to use with Nuxt
-
-You have to make certain changes when using vue-waypoint in a nuxt application mainly because it is designed for client side. Otherwise this could cause errors due to references to the `window` object.
-
-### 1. Add the package to the project as usual
-
-```bash
-$ npm install vue-waypoint --save
-```
-
-### 2. Create new plugin file
-Create new file under `plugins` folder and name it `v-waypoint.js`
-
-### 3. Add the following code to `v-waypoint.client.js` to install the `vue-waypoint`
 
 ```js
-import Vue from "vue"
-import VueWaypoint from "vue-waypoint"
-
-Vue.use(VueWaypoint)
+WaypointState {
+  going: 'IN' | 'OUT';
+  direction: 'UP' | 'DOWN' | 'LEFT' | 'RIGHT';
+};
 ```
 
-### 4. Update the `nuxt.config.js` to reference the plugin file
-The `mode: 'client'` option will make sure `v-waypoint` is rendered and used only in the client-side bundle.
-```js
-...
-  plugins: [    
-    ...
-    {
-      src: "~/plugins/v-waypoint.js",
-      mode: 'client'
-    }
-  ],
-...
-```
+## Development
+
+1. Fork the repository
+2. Run the project (`npm i && npm run serve`)
+3. Follow [Conventional Commits spec](https://www.conventionalcommits.org/en/v1.0.0/) for your commits
+4. Open a pull request
