@@ -1,10 +1,8 @@
 <script lang="ts">
 import {
-  ComponentInternalInstance,
   computed,
   ComputedRef,
   defineComponent,
-  getCurrentInstance,
   h,
   onBeforeUnmount,
   onBeforeUpdate,
@@ -50,14 +48,6 @@ export default defineComponent({
       () =>
         compatible && mounted.value && props.active && element.value !== null
     );
-
-    const instance: ComponentInternalInstance | null = getCurrentInstance();
-
-    // this should never happen
-    if (instance === null) {
-      console.error("[vue-waypoint]", "instance is null");
-      return;
-    }
 
     const waypointState: Ref<WaypointState | undefined> = ref(undefined);
     const updateWaypointState = (newState: WaypointState) =>
