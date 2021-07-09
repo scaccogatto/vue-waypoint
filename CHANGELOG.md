@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.1.0](https://github.com/scaccogatto/vue-waypoint/compare/v4.0.0...v4.1.0) (2021-07-09)
+
+
+### Features
+
+* adds el as example ([09cdc71](https://github.com/scaccogatto/vue-waypoint/commit/09cdc716873ac0711a2078f248aa2749d31e2629))
+
 ## [4.0.0](https://github.com/scaccogatto/vue-waypoint/compare/v3.5.0...v4.0.0) (2021-06-21)
 
 
