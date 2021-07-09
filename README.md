@@ -149,6 +149,7 @@ const changeFunction = (waypointState) => {..}
 
 ```js
 WaypointState {
+  el: Element,
   going: 'IN' | 'OUT';
   direction: 'UP' | 'DOWN' | 'LEFT' | 'RIGHT';
 };
