@@ -1,6 +1,7 @@
 import { ref, Ref } from "vue";
 
 export type WaypointState = {
+  el: Element | undefined;
   going: Going | undefined;
   direction: Direction | undefined;
 };
@@ -54,6 +55,7 @@ export const createObserver = (
 
       // create a new state and notify
       const waypointState: WaypointState = {
+        el: entry.target,
         going: toGoing(entry.isIntersecting),
         direction: toDirection(
           entry.boundingClientRect,
