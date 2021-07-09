@@ -18,6 +18,7 @@ export default defineComponent({
   setup() {
     const printCallback = (waypointState: WaypointState) => {
       console.info({
+        el: waypointState.el,
         going: waypointState.going,
         direction: waypointState.direction
       });
