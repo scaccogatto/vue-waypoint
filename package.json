@@ -5,6 +5,10 @@
   "private": false,
   "main": "dist/vue-waypoint.umd.min.js",
   "typings": "./dist/typings/src/components/Waypoint/index.d.ts",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/scaccogatto/vue-waypoint"
+  },
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
