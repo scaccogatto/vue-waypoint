@@ -97,6 +97,7 @@ export default defineComponent({
       h(props.tag, {
         ref: element,
         class: `waypoint ${stringClass.value}`.trim()
+        // TODO: if exist, add inner content
       });
   }
 });
