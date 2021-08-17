@@ -4,10 +4,6 @@
 
 ![Latest Release](https://github.com/scaccogatto/vue-waypoint/workflows/Release/badge.svg)
 
-## Vue2 and Nuxt version
-
-[vue-waypoint for Vue2 repository](https://github.com/scaccogatto/vue-waypoint/tree/vue2)
-
 ## Demo
 
 [Simple demo page](https://vue-waypoint.netlify.app/)
@@ -176,3 +172,7 @@ WaypointState {
 2. Run the project (`npm i && npm run serve`)
 3. Follow [Conventional Commits spec](https://www.conventionalcommits.org/en/v1.0.0/) for your commits
 4. Open a pull request
+
+## LEGACY: Vue2 and Nuxt version
+
+[vue-waypoint for Vue2 repository](https://github.com/scaccogatto/vue-waypoint/tree/vue2)
