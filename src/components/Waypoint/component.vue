@@ -30,6 +30,10 @@ export default defineComponent({
     tag: {
       type: String,
       default: () => "div"
+    },
+    disableCssHelpers: {
+      type: Boolean,
+      default: () => false
     }
   },
   setup(props, context) {
@@ -93,10 +97,15 @@ export default defineComponent({
       return [goingClass.value, directionClass.value].join(" ").trim();
     });
 
+    const cssHelpers: ComputedRef<string | undefined> = computed(() => {
+      if (props.disableCssHelpers) return;
+      return `waypoint ${stringClass.value}`.trim();
+    });
+
     return () =>
       h(props.tag, {
         ref: element,
-        class: `waypoint ${stringClass.value}`.trim()
+        ...(cssHelpers.value ? { class: cssHelpers.value } : {})
       });
   }
 });

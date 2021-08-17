@@ -113,6 +113,21 @@ const options: IntersectionObserverInit = {
 - Waypoint as span: `<Waypoint :tag="'span'" /> --> renders --> <span class="waypoint"></span>`
 - Waypoint as p: `<Waypoint :tag="'p'" /> --> renders --> <p class="waypoint"></p>`
 
+### `disableCssHelpers`
+
+- [x] Disable automatic CSS classes on the Waypoint component
+- [x] Defaults to `false`
+
+Usage:
+
+- Enable helpers (default): `<Waypoint :disableCssHelpers="false" />`
+- Disable helpers: `<Waypoint :disableCssHelpers="true" />`
+
+DOM result:
+
+- With CSS helpers: `<Waypoint /> --> renders --> <div class="waypoint going-in direction-down"></div>`
+- Without CSS helpers: `<Waypoint :disableCssHelpers="true" /> --> renders --> <div></div>`
+
 ## CSS helpers
 
 - [x] Zero configuration needed
