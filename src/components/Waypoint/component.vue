@@ -10,6 +10,7 @@ import {
   onUpdated,
   Ref,
   ref,
+  SetupContext,
   watch
 } from "vue";
 import { createObserver, Direction, Going, WaypointState } from "./observer";
@@ -32,7 +33,7 @@ export default defineComponent({
       default: () => "div"
     }
   },
-  setup(props, context) {
+  setup(props, context: SetupContext) {
     // check for browser compatibility
     const compatible: boolean =
       typeof window.IntersectionObserver === "function";
@@ -94,11 +95,14 @@ export default defineComponent({
     });
 
     return () =>
-      h(props.tag, {
-        ref: element,
-        class: `waypoint ${stringClass.value}`.trim()
-        // TODO: if exist, add inner content
-      });
+      h(
+        props.tag,
+        {
+          ref: element,
+          class: `waypoint ${stringClass.value}`.trim()
+        },
+        context.slots
+      );
   }
 });
 </script>
