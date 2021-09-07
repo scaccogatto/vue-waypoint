@@ -19,6 +19,7 @@ Open your browser console and see what's going on while scrolling up and down
 - [x] Battle tested
 - [x] Customizable
 - [x] Solid project (3+ years)
+- [x] Supports slots
 
 ## Getting started
 
@@ -32,7 +33,9 @@ npm i vue-waypoint
 
 ```html
 <template>
-  <Waypoint @change="onChange" />
+  <Waypoint @change="onChange">
+    <!-- anything you want here -->
+  </Waypoint>
 </template>
 ```
 
