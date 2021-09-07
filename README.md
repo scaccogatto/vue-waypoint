@@ -42,7 +42,7 @@ npm i vue-waypoint
 ```html
 <script lang="ts">
 import { defineComponent } from "vue";
-import { VueWaypoint } from 'vue-waypoint'
+import { Waypoint } from 'vue-waypoint'
 
 export default defineComponent({
   name: "SomeComponent",
