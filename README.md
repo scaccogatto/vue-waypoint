@@ -75,7 +75,7 @@ export default defineComponent({
 ### `active`
 
 - [x] Can use a reactive variable
-- [x] Can set `true`/`false` dinamically
+- [x] Can set `true`/`false` dynamically
 
 Usage:
 
@@ -135,8 +135,8 @@ DOM result:
 The component comes with three classes:
 
 - `waypoint`: set when the waypoint is ready
-- `going-in`, `going-out`: dinamically changed when the waypoint comes in and out
-- `direction-up`, `direction-down`, `direction-left`, `direction-right`: dinamically changed when the direction changes
+- `going-in`, `going-out`: dynamically changed when the waypoint comes in and out
+- `direction-up`, `direction-down`, `direction-left`, `direction-right`: dynamically changed when the direction changes
 
 Examples:
 
