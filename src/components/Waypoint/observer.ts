@@ -8,14 +8,14 @@ export type WaypointState = {
 
 export enum Going {
   In = "IN",
-  Out = "OUT"
+  Out = "OUT",
 }
 
 export enum Direction {
   Up = "UP",
   Down = "DOWN",
   Left = "LEFT",
-  Right = "RIGHT"
+  Right = "RIGHT",
 }
 
 const toGoing = (isIntersecting: boolean): Going => {
@@ -32,41 +32,40 @@ const toDirection = (
   if (rect.left < oldRect.left) return Direction.Left;
 };
 
-export const createObserver = (
-  options: IntersectionObserverInit | undefined
-) => (callback: Function) => {
-  const boundingClientRect: Ref<DOMRectReadOnly | undefined> = ref(undefined);
+export const createObserver =
+  (options: IntersectionObserverInit | undefined) => (callback: Function) => {
+    const boundingClientRect: Ref<DOMRectReadOnly | undefined> = ref(undefined);
 
-  return new window.IntersectionObserver(
-    (entries: IntersectionObserverEntry[]) => {
-      const entry: IntersectionObserverEntry | undefined = entries[0];
+    return new window.IntersectionObserver(
+      (entries: IntersectionObserverEntry[]) => {
+        const entry: IntersectionObserverEntry | undefined = entries[0];
 
-      // this should never happen
-      if (typeof entry === "undefined") {
-        console.error("[vue-waypoint]", "observed element is undefined");
-        return;
-      }
+        // this should never happen
+        if (typeof entry === "undefined") {
+          console.error("[vue-waypoint]", "observed element is undefined");
+          return;
+        }
 
-      // set the default bounding client
-      // this happens only on the first call
-      if (typeof boundingClientRect.value === "undefined") {
+        // set the default bounding client
+        // this happens only on the first call
+        if (typeof boundingClientRect.value === "undefined") {
+          boundingClientRect.value = entry.boundingClientRect;
+        }
+
+        // create a new state and notify
+        const waypointState: WaypointState = {
+          el: entry.target,
+          going: toGoing(entry.isIntersecting),
+          direction: toDirection(
+            entry.boundingClientRect,
+            boundingClientRect.value
+          ),
+        };
+        callback(waypointState);
+
+        // save the rect for next matching
         boundingClientRect.value = entry.boundingClientRect;
-      }
-
-      // create a new state and notify
-      const waypointState: WaypointState = {
-        el: entry.target,
-        going: toGoing(entry.isIntersecting),
-        direction: toDirection(
-          entry.boundingClientRect,
-          boundingClientRect.value
-        )
-      };
-      callback(waypointState);
-
-      // save the rect for next matching
-      boundingClientRect.value = entry.boundingClientRect;
-    },
-    options
-  );
-};
+      },
+      options
+    );
+  };

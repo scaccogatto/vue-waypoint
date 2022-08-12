@@ -12,7 +12,7 @@ export default function setupIntersectionObserverMock({
   disconnect = () => null,
   observe = () => null,
   takeRecords = () => [],
-  unobserve = () => null
+  unobserve = () => null,
 } = {}): void {
   class MockIntersectionObserver implements IntersectionObserver {
     readonly root: Element | null = root;
@@ -27,7 +27,7 @@ export default function setupIntersectionObserverMock({
   Object.defineProperty(window, "IntersectionObserver", {
     writable: true,
     configurable: true,
-    value: MockIntersectionObserver
+    value: MockIntersectionObserver,
   });
 
   // Object.defineProperty(global, "IntersectionObserver", {

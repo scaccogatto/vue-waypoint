@@ -13,19 +13,19 @@ import { Waypoint, WaypointState } from "./components/Waypoint/index";
 export default defineComponent({
   name: "App",
   components: {
-    Waypoint
+    Waypoint,
   },
   setup() {
     const printCallback = (waypointState: WaypointState) => {
       console.info({
         el: waypointState.el,
         going: waypointState.going,
-        direction: waypointState.direction
+        direction: waypointState.direction,
       });
     };
 
     return { printCallback, testSize: 100 };
-  }
+  },
 });
 </script>
 

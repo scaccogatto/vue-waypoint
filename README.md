@@ -41,32 +41,32 @@ npm i vue-waypoint
 
 ```html
 <script lang="ts">
-import { defineComponent } from "vue";
-import { Waypoint } from 'vue-waypoint'
+  import { defineComponent } from "vue";
+  import { Waypoint } from "vue-waypoint";
 
-export default defineComponent({
-  name: "SomeComponent",
-  components: {
-    Waypoint
-  },
-  setup() {
-    const onChange = (waypointState) => {
-      // Going can be:
-      // IN
-      // OUT
-      console.log(waypointState.going);
+  export default defineComponent({
+    name: "SomeComponent",
+    components: {
+      Waypoint,
+    },
+    setup() {
+      const onChange = (waypointState) => {
+        // Going can be:
+        // IN
+        // OUT
+        console.log(waypointState.going);
 
-      // Direction can be:
-      // UP
-      // DOWN
-      // LEFT
-      // RIGHT
-      console.log(waypointState.direction);
-    }
+        // Direction can be:
+        // UP
+        // DOWN
+        // LEFT
+        // RIGHT
+        console.log(waypointState.direction);
+      };
 
-    return { onChange };
-  }
-});
+      return { onChange };
+    },
+  });
 </script>
 ```
 
@@ -98,8 +98,8 @@ Options example:
 ```js
 const options: IntersectionObserverInit = {
   root: document,
-  rootMargin: '0px 0px 0px 0px',
-  threshold: [0.25, 0.75]
+  rootMargin: "0px 0px 0px 0px",
+  threshold: [0.25, 0.75],
 };
 ```
 

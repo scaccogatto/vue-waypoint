@@ -11,7 +11,7 @@ import {
   Ref,
   ref,
   SetupContext,
-  watch
+  watch,
 } from "vue";
 import { createObserver, Direction, Going, WaypointState } from "./observer";
 
@@ -20,22 +20,22 @@ export default defineComponent({
   props: {
     active: {
       type: Boolean,
-      default: () => true
+      default: () => true,
     },
     options: {
       type: Object,
       validator: (value: IntersectionObserverInit | undefined) =>
         typeof value === "object",
-      default: () => ({})
+      default: () => ({}),
     },
     tag: {
       type: String,
-      default: () => "div"
+      default: () => "div",
     },
     disableCssHelpers: {
       type: Boolean,
-      default: () => false
-    }
+      default: () => false,
+    },
   },
   setup(props, context: SetupContext) {
     // check for browser compatibility
@@ -108,10 +108,10 @@ export default defineComponent({
         props.tag,
         {
           ref: element,
-          ...(cssHelpers.value ? { class: cssHelpers.value } : {})
+          ...(cssHelpers.value ? { class: cssHelpers.value } : {}),
         },
         context.slots
       );
-  }
+  },
 });
 </script>
