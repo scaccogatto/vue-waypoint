@@ -1,4 +1,4 @@
-import { ref, Ref } from "vue";
+import { ref } from "vue";
 
 export type WaypointState = {
   el: Element | undefined;
@@ -32,40 +32,35 @@ const toDirection = (
   if (rect.left < oldRect.left) return Direction.Left;
 };
 
-export const createObserver =
-  (options: IntersectionObserverInit | undefined) => (callback: Function) => {
-    const boundingClientRect: Ref<DOMRectReadOnly | undefined> = ref(undefined);
+type Callback = (state: WaypointState) => void;
 
-    return new window.IntersectionObserver(
-      (entries: IntersectionObserverEntry[]) => {
-        const entry: IntersectionObserverEntry | undefined = entries[0];
+export const createObserver = (options?: IntersectionObserverInit) => {
+  return (callback: Callback) => {
+    const boundingClientRect = ref<DOMRectReadOnly>();
 
-        // this should never happen
-        if (typeof entry === "undefined") {
-          console.error("[vue-waypoint]", "observed element is undefined");
-          return;
-        }
+    return new window.IntersectionObserver(([entry]) => {
+      // this should never happen
+      if (typeof entry === "undefined") {
+        console.error("[vue-waypoint]", "observed element is undefined");
+        return;
+      }
 
-        // set the default bounding client
-        // this happens only on the first call
-        if (typeof boundingClientRect.value === "undefined") {
-          boundingClientRect.value = entry.boundingClientRect;
-        }
+      // set the default bounding client
+      // this happens only on the first call
+      boundingClientRect.value ??= entry.boundingClientRect;
 
-        // create a new state and notify
-        const waypointState: WaypointState = {
-          el: entry.target,
-          going: toGoing(entry.isIntersecting),
-          direction: toDirection(
-            entry.boundingClientRect,
-            boundingClientRect.value
-          ),
-        };
-        callback(waypointState);
+      // create a new state and notify
+      callback({
+        el: entry.target,
+        going: toGoing(entry.isIntersecting),
+        direction: toDirection(
+          entry.boundingClientRect,
+          boundingClientRect.value
+        ),
+      });
 
-        // save the rect for next matching
-        boundingClientRect.value = entry.boundingClientRect;
-      },
-      options
-    );
+      // save the rect for next matching
+      boundingClientRect.value = entry.boundingClientRect;
+    }, options);
   };
+};

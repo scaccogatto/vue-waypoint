@@ -1,21 +1,19 @@
-<script lang="ts">
 import {
   computed,
-  ComputedRef,
   defineComponent,
   h,
   onBeforeUnmount,
   onBeforeUpdate,
   onMounted,
   onUpdated,
-  Ref,
   ref,
-  SetupContext,
   watch,
+  type PropType,
 } from "vue";
-import { createObserver, Direction, Going, WaypointState } from "./observer";
+import { createObserver, type WaypointState } from "./observer";
 
 export default defineComponent({
+  // eslint-disable-next-line vue/multi-word-component-names
   name: "Waypoint",
   props: {
     active: {
@@ -23,9 +21,7 @@ export default defineComponent({
       default: () => true,
     },
     options: {
-      type: Object,
-      validator: (value: IntersectionObserverInit | undefined) =>
-        typeof value === "object",
+      type: Object as PropType<IntersectionObserverInit>,
       default: () => ({}),
     },
     tag: {
@@ -37,28 +33,28 @@ export default defineComponent({
       default: () => false,
     },
   },
-  setup(props, context: SetupContext) {
+  setup(props, context) {
     // check for browser compatibility
     const compatible: boolean =
       typeof window.IntersectionObserver === "function";
 
     // watch for mount
-    const mounted: Ref<boolean> = ref(false);
+    const mounted = ref<boolean>(false);
 
     // element DOM reference
-    const element: Ref<Element | null> = ref(null);
+    const element = ref<Element | null>(null);
 
     // activable conditions
-    const activable: ComputedRef<boolean> = computed(
+    const activable = computed<boolean>(
       () =>
         compatible && mounted.value && props.active && element.value !== null
     );
 
-    const waypointState: Ref<WaypointState | undefined> = ref(undefined);
+    const waypointState = ref<WaypointState>();
     const updateWaypointState = (newState: WaypointState) =>
       (waypointState.value = newState);
 
-    const observer: Ref<IntersectionObserver> = ref(
+    const observer = ref<IntersectionObserver>(
       createObserver(props.options)(updateWaypointState)
     );
 
@@ -81,37 +77,23 @@ export default defineComponent({
     onUpdated(() => (mounted.value = true));
     onBeforeUnmount(() => (mounted.value = false));
 
-    // css classes
-    const goingClass: ComputedRef<string> = computed(() => {
-      const going: Going | undefined = waypointState.value?.going;
-      if (typeof going === "undefined") return "";
-      return `going-${going.toString().toLowerCase()}`;
+    const cssHelpers = computed(() => {
+      const { going, direction: dir } = waypointState.value ?? {};
+      const goingClass = going && `going-${going.toLowerCase()}`;
+      const directionClass = dir && `direction-${dir.toLowerCase()}`;
+      return ["waypoint", goingClass, directionClass];
     });
 
-    const directionClass: ComputedRef<string | undefined> = computed(() => {
-      const direction: Direction | undefined = waypointState.value?.direction;
-      if (typeof direction === "undefined") return "";
-      return `direction-${direction.toString().toLowerCase()}`;
-    });
+    return () => {
+      const rawProps = props.disableCssHelpers
+        ? { ref: element }
+        : { ref: element, class: cssHelpers.value };
 
-    const stringClass: ComputedRef<string> = computed(() => {
-      return [goingClass.value, directionClass.value].join(" ").trim();
-    });
-
-    const cssHelpers: ComputedRef<string | undefined> = computed(() => {
-      if (props.disableCssHelpers) return;
-      return `waypoint ${stringClass.value}`.trim();
-    });
-
-    return () =>
-      h(
+      return h(
         props.tag,
-        {
-          ref: element,
-          ...(cssHelpers.value ? { class: cssHelpers.value } : {}),
-        },
-        context.slots
+        rawProps,
+        context.slots.default?.(waypointState.value ?? {})
       );
+    };
   },
 });
-</script>
