@@ -1,31 +1,35 @@
 <template>
   <Waypoint
-    v-for="i of Array.from({ length: testSize })"
+    v-for="i in testSize"
     :key="i"
     @change="printCallback"
-  />
+    #default="{ going, direction }"
+  >
+    <span v-if="going">going-{{ going.toLowerCase() }}</span>
+    <span v-if="direction">direction-{{ direction.toLowerCase() }}</span>
+  </Waypoint>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { Waypoint, WaypointState } from "./components/Waypoint/index";
+import { Waypoint, type WaypointState } from "./components/Waypoint";
 
 export default defineComponent({
   name: "App",
   components: {
-    Waypoint
+    Waypoint,
   },
   setup() {
-    const printCallback = (waypointState: WaypointState) => {
+    function printCallback(waypointState: WaypointState) {
       console.info({
         el: waypointState.el,
         going: waypointState.going,
-        direction: waypointState.direction
+        direction: waypointState.direction,
       });
-    };
+    }
 
     return { printCallback, testSize: 100 };
-  }
+  },
 });
 </script>
 
@@ -54,29 +58,5 @@ export default defineComponent({
 
 .waypoint:nth-child(even) {
   background-color: #35495e;
-}
-
-.waypoint.going-in::before {
-  content: "going-in";
-}
-
-.waypoint.going-out::before {
-  content: "going-out";
-}
-
-.waypoint.direction-up::after {
-  content: "direction-up";
-}
-
-.waypoint.direction-down::after {
-  content: "direction-down";
-}
-
-.waypoint.direction-left::after {
-  content: "direction-left";
-}
-
-.waypoint.direction-right::after {
-  content: "direction-right";
 }
 </style>

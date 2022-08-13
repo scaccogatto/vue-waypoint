@@ -41,32 +41,32 @@ npm i vue-waypoint
 
 ```html
 <script lang="ts">
-import { defineComponent } from "vue";
-import { Waypoint } from 'vue-waypoint'
+  import { defineComponent } from "vue";
+  import { Waypoint } from "vue-waypoint";
 
-export default defineComponent({
-  name: "SomeComponent",
-  components: {
-    Waypoint
-  },
-  setup() {
-    const onChange = (waypointState) => {
-      // Going can be:
-      // IN
-      // OUT
-      console.log(waypointState.going);
+  export default defineComponent({
+    name: "SomeComponent",
+    components: {
+      Waypoint,
+    },
+    setup() {
+      const onChange = (waypointState) => {
+        // Going can be:
+        // IN
+        // OUT
+        console.log(waypointState.going);
 
-      // Direction can be:
-      // UP
-      // DOWN
-      // LEFT
-      // RIGHT
-      console.log(waypointState.direction);
-    }
+        // Direction can be:
+        // UP
+        // DOWN
+        // LEFT
+        // RIGHT
+        console.log(waypointState.direction);
+      };
 
-    return { onChange };
-  }
-});
+      return { onChange };
+    },
+  });
 </script>
 ```
 
@@ -98,8 +98,8 @@ Options example:
 ```js
 const options: IntersectionObserverInit = {
   root: document,
-  rootMargin: '0px 0px 0px 0px',
-  threshold: [0.25, 0.75]
+  rootMargin: "0px 0px 0px 0px",
+  threshold: [0.25, 0.75],
 };
 ```
 
@@ -158,21 +158,23 @@ Emitted every time the waypoint detects a change.
 ```
 
 ```js
-const changeFunction = (waypointState) => {..}
+function onChange(waypointState) {
+  /* ... */
+}
 ```
 
 ```js
-WaypointState {
-  el: Element,
-  going: 'IN' | 'OUT';
-  direction: 'UP' | 'DOWN' | 'LEFT' | 'RIGHT';
-};
+interface WaypointState {
+  el: Element;
+  going: "IN" | "OUT";
+  direction: "UP" | "DOWN" | "LEFT" | "RIGHT";
+}
 ```
 
 ## Development
 
 1. Fork the repository
-2. Run the project (`npm i && npm run serve`)
+2. Run the project (`npm i && npm run dev`)
 3. Follow [Conventional Commits spec](https://www.conventionalcommits.org/en/v1.0.0/) for your commits
 4. Open a pull request
 

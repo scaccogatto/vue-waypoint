@@ -1,4 +1,4 @@
-import { ref, Ref } from "vue";
+import { ref } from "vue";
 
 export type WaypointState = {
   el: Element | undefined;
@@ -8,14 +8,14 @@ export type WaypointState = {
 
 export enum Going {
   In = "IN",
-  Out = "OUT"
+  Out = "OUT",
 }
 
 export enum Direction {
   Up = "UP",
   Down = "DOWN",
   Left = "LEFT",
-  Right = "RIGHT"
+  Right = "RIGHT",
 }
 
 const toGoing = (isIntersecting: boolean): Going => {
@@ -32,15 +32,13 @@ const toDirection = (
   if (rect.left < oldRect.left) return Direction.Left;
 };
 
-export const createObserver = (
-  options: IntersectionObserverInit | undefined
-) => (callback: Function) => {
-  const boundingClientRect: Ref<DOMRectReadOnly | undefined> = ref(undefined);
+type Callback = (state: WaypointState) => void;
 
-  return new window.IntersectionObserver(
-    (entries: IntersectionObserverEntry[]) => {
-      const entry: IntersectionObserverEntry | undefined = entries[0];
+export const createObserver = (options?: IntersectionObserverInit) => {
+  return (callback: Callback) => {
+    const boundingClientRect = ref<DOMRectReadOnly>();
 
+    return new window.IntersectionObserver(([entry]) => {
       // this should never happen
       if (typeof entry === "undefined") {
         console.error("[vue-waypoint]", "observed element is undefined");
@@ -49,24 +47,20 @@ export const createObserver = (
 
       // set the default bounding client
       // this happens only on the first call
-      if (typeof boundingClientRect.value === "undefined") {
-        boundingClientRect.value = entry.boundingClientRect;
-      }
+      boundingClientRect.value ??= entry.boundingClientRect;
 
       // create a new state and notify
-      const waypointState: WaypointState = {
+      callback({
         el: entry.target,
         going: toGoing(entry.isIntersecting),
         direction: toDirection(
           entry.boundingClientRect,
           boundingClientRect.value
-        )
-      };
-      callback(waypointState);
+        ),
+      });
 
       // save the rect for next matching
       boundingClientRect.value = entry.boundingClientRect;
-    },
-    options
-  );
+    }, options);
+  };
 };

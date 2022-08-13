@@ -1,10 +1,11 @@
+import { beforeEach, describe, it, expect, vi } from "vitest";
 import { shallowMount } from "@vue/test-utils";
-import setupIntersectionObserverMock from "./setupIntersectionObserverMock";
-import { Waypoint } from "@/components/Waypoint/index.ts";
+import { Waypoint } from "@/components/Waypoint";
 
 beforeEach(() => {
-  const mockIntersectionObserver = jest.fn();
-  mockIntersectionObserver.mockReturnValue(setupIntersectionObserverMock());
+  const noop = () => null;
+  const mockIntersectionObserver = vi.fn();
+  mockIntersectionObserver.mockReturnValue({ observe: noop, unobserve: noop });
   window.IntersectionObserver = mockIntersectionObserver;
 });
 
