@@ -3,9 +3,7 @@ import {
   defineComponent,
   h,
   onBeforeUnmount,
-  onBeforeUpdate,
   onMounted,
-  onUpdated,
   ref,
   watch,
   type PropType,
@@ -73,8 +71,6 @@ export default defineComponent({
 
     // bind and unbind IntersectionObserver as needed
     onMounted(() => (mounted.value = true));
-    onBeforeUpdate(() => (mounted.value = false));
-    onUpdated(() => (mounted.value = true));
     onBeforeUnmount(() => (mounted.value = false));
 
     const cssHelpers = computed(() => {
