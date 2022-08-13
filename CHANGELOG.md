@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.2.3](https://github.com/scaccogatto/vue-waypoint/compare/v4.2.2...v4.2.3) (2022-08-13)
+
+### Bug Fixes
+
+- node version on build ([f5944df](https://github.com/scaccogatto/vue-waypoint/commit/f5944df31e90ac6ea19a6474aa183ffc7f834814))
+
 ### [4.2.2](https://github.com/scaccogatto/vue-waypoint/compare/v4.2.1...v4.2.2) (2022-08-13)
 
 ### Bug Fixes
