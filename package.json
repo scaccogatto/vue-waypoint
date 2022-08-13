@@ -1,6 +1,6 @@
 {
   "name": "vue-waypoint",
-  "version": "4.2.1",
+  "version": "4.2.2",
   "license": "MIT",
   "private": false,
   "main": "dist/vue-waypoint.umd.js",
