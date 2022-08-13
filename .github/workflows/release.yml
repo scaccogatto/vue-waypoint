@@ -22,7 +22,6 @@ jobs:
       # Setup .npmrc file to publish to npm
       - uses: actions/setup-node@v1
         with:
-          node-version: "14.x.x"
           registry-url: "https://registry.npmjs.org"
       - run: npm install
       - run: npm run build-only-lib
