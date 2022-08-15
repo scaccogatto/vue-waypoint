@@ -24,7 +24,7 @@ jobs:
         with:
           node-version: "16.x.x"
           registry-url: "https://registry.npmjs.org"
-      - run: npm install
+      - run: npm ci
       - run: npm run build-only-lib
       - run: npm publish
         env:
