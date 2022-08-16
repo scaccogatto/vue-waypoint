@@ -47,7 +47,7 @@
     "vue-tsc": "^0.39.5"
   },
   "peerDependencies": {
-    "vue": "^3.0.0",
+    "vue": "^3.0.0"
   },
   "lint-staged": {
     "*": "prettier --write --ignore-path .gitignore --ignore-unknown",
