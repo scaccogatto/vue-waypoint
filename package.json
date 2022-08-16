@@ -46,6 +46,9 @@
     "vue": "^3.2.37",
     "vue-tsc": "^0.39.5"
   },
+  "peerDependencies": {
+    "vue": "^3.0.0",
+  },
   "lint-staged": {
     "*": "prettier --write --ignore-path .gitignore --ignore-unknown",
     "*.{vue,js,jsx,cjs,mjs,ts,tsx,cts,mts}": "eslint --fix --ignore-path .gitignore"
