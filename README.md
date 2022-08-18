@@ -18,7 +18,7 @@ Open your browser console and see what's going on while scrolling up and down
 - [x] Typescript
 - [x] Battle tested
 - [x] Customizable
-- [x] Solid project (3+ years)
+- [x] Solid project (5+ years)
 - [x] Supports slots
 
 ## Getting started
