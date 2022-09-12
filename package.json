@@ -5,7 +5,7 @@
   "private": false,
   "main": "dist/vue-waypoint.umd.js",
   "module": "dist/vue-waypoint.mjs",
-  "typings": "src/components/index.ts",
+  "typings": "src/components/Waypoint/index.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/scaccogatto/vue-waypoint"
