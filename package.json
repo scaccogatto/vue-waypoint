@@ -41,7 +41,7 @@
     "prettier": "^2.7.1",
     "standard-version": "^9.5.0",
     "typescript": "~4.7.4",
-    "vite": "^3.0.4",
+    "vite": "^3.2.7",
     "vitest": "^0.21.0",
     "vue": "^3.2.37",
     "vue-tsc": "^0.39.5"
