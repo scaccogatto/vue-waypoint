@@ -32,36 +32,29 @@ export default defineComponent({
     },
   },
   setup(props, context) {
-    // check for browser compatibility
-    const compatible: boolean =
-      typeof window.IntersectionObserver === "function";
-
-    // watch for mount
-    const mounted = ref<boolean>(false);
+    // check for mounted status
+    const mounted = ref(false);
 
     // element DOM reference
     const element = ref<Element | null>(null);
 
-    // activable conditions
-    const activable = computed<boolean>(
-      () =>
-        compatible && mounted.value && props.active && element.value !== null
+    // activatable conditions
+    const activatable = computed<boolean>(
+      () => mounted.value && props.active && element.value !== null
     );
 
     const waypointState = ref<WaypointState>();
     const updateWaypointState = (newState: WaypointState) =>
       (waypointState.value = newState);
 
-    const observer = ref<IntersectionObserver>(
-      createObserver(props.options)(updateWaypointState)
-    );
-
-    watch(activable, () => {
+    const observer = ref<IntersectionObserver | null>();
+    watch(activatable, () => {
       // cannot observer or unobserve if the element is null
       if (element.value === null) return;
 
-      if (activable.value) return observer.value.observe(element.value);
-      else return observer.value.unobserve(element.value);
+      if (activatable.value && observer.value)
+        return observer.value.observe(element.value);
+      else return observer.value?.unobserve(element.value);
     });
 
     watch(waypointState, () => {
@@ -70,7 +63,11 @@ export default defineComponent({
     });
 
     // bind and unbind IntersectionObserver as needed
-    onMounted(() => (mounted.value = true));
+    onMounted(() => {
+      mounted.value = true;
+      observer.value = createObserver(props.options)(updateWaypointState);
+    });
+
     onBeforeUnmount(() => (mounted.value = false));
 
     const cssHelpers = computed(() => {
