@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.3.0](https://github.com/scaccogatto/vue-waypoint/compare/v4.2.5...v4.3.0) (2023-08-28)
+
+### Features
+
+- added support for SSR environments ([#77](https://github.com/scaccogatto/vue-waypoint/issues/77)) ([1ae537b](https://github.com/scaccogatto/vue-waypoint/commit/1ae537bbfa86d6096b6c45e47d65a704ba833f4a))
+
 ### [4.2.5](https://github.com/scaccogatto/vue-waypoint/compare/v4.2.4...v4.2.5) (2022-09-12)
 
 ### Bug Fixes
