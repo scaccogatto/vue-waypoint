@@ -5,27 +5,32 @@ on:
     tags:
       - "v*"
 
-jobs:
-  cancel:
-    name: Cancel Previous Runs
-    runs-on: ubuntu-latest
-    timeout-minutes: 3
-    steps:
-      - uses: styfle/cancel-workflow-action@0.4.0
-        with:
-          access_token: ${{ github.token }}
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
-  build:
+jobs:
+  publish:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
     steps:
-      - uses: actions/checkout@v2
-      # Setup .npmrc file to publish to npm
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
         with:
-          node-version: "16.x.x"
+          node-version: 20
+          cache: npm
           registry-url: "https://registry.npmjs.org"
+
       - run: npm ci
+
+      - run: npm run lint
+      - run: npm run type-check
+      - run: npm run test:unit
       - run: npm run build-only-lib
-      - run: npm publish
+
+      - run: npm publish --provenance --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

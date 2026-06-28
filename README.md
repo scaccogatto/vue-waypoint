@@ -1,37 +1,48 @@
-# VueWaypoint
+# vue-waypoint
 
-> trigger functions and events based on the element position on the screen
+> Trigger functions and events based on an element's position on screen — a tiny, dependency-free Vue 3 wrapper around the native [`IntersectionObserver`](https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver).
 
-![Latest Release](https://github.com/scaccogatto/vue-waypoint/workflows/Release/badge.svg)
+[![npm version](https://img.shields.io/npm/v/vue-waypoint.svg)](https://www.npmjs.com/package/vue-waypoint)
+[![CI](https://github.com/scaccogatto/vue-waypoint/actions/workflows/ci.yml/badge.svg)](https://github.com/scaccogatto/vue-waypoint/actions/workflows/ci.yml)
+[![minzipped size](https://img.shields.io/bundlephobia/minzip/vue-waypoint)](https://bundlephobia.com/package/vue-waypoint)
+[![license](https://img.shields.io/npm/l/vue-waypoint.svg)](./LICENSE)
 
 ## Demo
 
-[Simple demo page](https://vue-waypoint.netlify.app/)
-
-Open your browser console and see what's going on while scrolling up and down
+[Simple demo page](https://vue-waypoint.netlify.app/) — open your browser console and watch the events fire while scrolling up and down.
 
 ## Features
 
-- [x] Vue 3
-- [x] No dependencies
-- [x] Flexible
-- [x] Typescript
-- [x] Battle tested
-- [x] Customizable
-- [x] Solid project (5+ years)
-- [x] Supports slots
+- Vue 3, written in TypeScript with shipped type declarations
+- Zero runtime dependencies — a thin wrapper over the native `IntersectionObserver`
+- ESM + CJS builds with correct `exports`
+- Flexible: custom tag, custom observer options, reactive `active` toggle
+- Optional CSS helper classes for quick, configuration-free animations
+- Slot support exposing the live waypoint state
+- SSR-safe
 
-## Getting started
-
-### npm
+## Install
 
 ```bash
 npm i vue-waypoint
 ```
 
-### Vue component
+## Usage
 
-```html
+### `<script setup>` (recommended)
+
+```vue
+<script setup lang="ts">
+import { Waypoint, type WaypointState } from "vue-waypoint";
+
+function onChange(state: WaypointState) {
+  // state.going     -> "IN" | "OUT"
+  // state.direction -> "UP" | "DOWN" | "LEFT" | "RIGHT"
+  // state.el        -> the observed Element
+  console.log(state.going, state.direction);
+}
+</script>
+
 <template>
   <Waypoint @change="onChange">
     <!-- anything you want here -->
@@ -39,63 +50,43 @@ npm i vue-waypoint
 </template>
 ```
 
-```html
+### Options API
+
+```vue
 <script lang="ts">
-  import { defineComponent } from "vue";
-  import { Waypoint } from "vue-waypoint";
+import { defineComponent } from "vue";
+import { Waypoint, type WaypointState } from "vue-waypoint";
 
-  export default defineComponent({
-    name: "SomeComponent",
-    components: {
-      Waypoint,
-    },
-    setup() {
-      const onChange = (waypointState) => {
-        // Going can be:
-        // IN
-        // OUT
-        console.log(waypointState.going);
-
-        // Direction can be:
-        // UP
-        // DOWN
-        // LEFT
-        // RIGHT
-        console.log(waypointState.direction);
-      };
-
-      return { onChange };
-    },
-  });
+export default defineComponent({
+  components: { Waypoint },
+  setup() {
+    const onChange = (state: WaypointState) => {
+      console.log(state.going, state.direction);
+    };
+    return { onChange };
+  },
+});
 </script>
+
+<template>
+  <Waypoint @change="onChange" />
+</template>
 ```
 
 ## Props
 
 ### `active`
 
-- [x] Can use a reactive variable
-- [x] Can set `true`/`false` dynamically
+Reactively enable or disable the waypoint. The element is observed while `active` is `true` and unobserved when it flips to `false`.
 
-Usage:
-
-- Enable the waypoint: `<Waypoint :active="true" />`
-- Disable the waypoint: `<Waypoint :active="false" />`
+- Enable: `<Waypoint :active="true" />`
+- Disable: `<Waypoint :active="false" />`
 
 ### `options`
 
-- [x] Useful for inner div detection
-- [x] Trigger `change` event a portion of the element is completely on screen
-- [x] Is an [official IntersectionObserverInit implementation](https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/IntersectionObserver)
+A standard [`IntersectionObserverInit`](https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/IntersectionObserver) object, forwarded verbatim to the underlying observer.
 
-Usage:
-
-- Set a custom `IntersectionObserver` options: `<Waypoint :options="options" />`
-- Read what you can do with `options`: [IntersectionObserverInit docs](https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/IntersectionObserver)
-
-Options example:
-
-```js
+```ts
 const options: IntersectionObserverInit = {
   root: document,
   rootMargin: "0px 0px 0px 0px",
@@ -103,81 +94,84 @@ const options: IntersectionObserverInit = {
 };
 ```
 
+`<Waypoint :options="options" />`
+
 ### `tag`
 
-- [x] Set your preferred tag for the element
-- [x] Defaults to `div`
+The rendered element tag. Defaults to `div`.
 
-- Waypoint as div: `<Waypoint :tag="'div'" /> --> renders --> <div class="waypoint"></div>`
-- Waypoint as span: `<Waypoint :tag="'span'" /> --> renders --> <span class="waypoint"></span>`
-- Waypoint as p: `<Waypoint :tag="'p'" /> --> renders --> <p class="waypoint"></p>`
+- `<Waypoint tag="div" />` → `<div class="waypoint"></div>`
+- `<Waypoint tag="span" />` → `<span class="waypoint"></span>`
+- `<Waypoint tag="p" />` → `<p class="waypoint"></p>`
 
 ### `disableCssHelpers`
 
-- [x] Disable automatic CSS classes on the Waypoint component
-- [x] Defaults to `false`
+Disable the automatic CSS helper classes. Defaults to `false`.
 
-Usage:
-
-- Enable helpers (default): `<Waypoint :disableCssHelpers="false" />`
-- Disable helpers: `<Waypoint :disableCssHelpers="true" />`
-
-DOM result:
-
-- With CSS helpers: `<Waypoint /> --> renders --> <div class="waypoint going-in direction-down"></div>`
-- Without CSS helpers: `<Waypoint :disableCssHelpers="true" /> --> renders --> <div></div>`
+- With helpers (default): `<Waypoint />` → `<div class="waypoint going-in direction-down"></div>`
+- Without helpers: `<Waypoint :disable-css-helpers="true" />` → `<div></div>`
 
 ## CSS helpers
 
-- [x] Zero configuration needed
-- [x] Useful for simple CSS animations
+Zero configuration, handy for simple CSS animations. The component toggles three families of classes:
 
-The component comes with three classes:
-
-- `waypoint`: set when the waypoint is ready
-- `going-in`, `going-out`: dynamically changed when the waypoint comes in and out
-- `direction-up`, `direction-down`, `direction-left`, `direction-right`: dynamically changed when the direction changes
+- `waypoint` — set as soon as the waypoint is ready
+- `going-in` / `going-out` — toggled as the element enters and leaves the viewport
+- `direction-up` / `direction-down` / `direction-left` / `direction-right` — toggled as the scroll direction changes
 
 Examples:
 
-- `<Waypoint class="waypoint going-in direction-up" />` - the element is visible and came from bottom and is going top (natural scroll)
-- `<Waypoint class="waypoint going-in direction-down" />` - the element is visible and came from top and is going up (reverse natural scroll)
-- `<Waypoint class="waypoint going-out direction-up" />` - the element is not visible and came from bottom and is going top
-- `<Waypoint class="waypoint going-out direction-down" />` - the element is not visible and came from top and is going up
+- `waypoint going-in direction-up` — visible, came from the bottom, scrolling up (natural scroll)
+- `waypoint going-in direction-down` — visible, came from the top, scrolling down
+- `waypoint going-out direction-up` — hidden, was scrolling up
+- `waypoint going-out direction-down` — hidden, was scrolling down
 
 ## Events
 
 ### `change`
 
-Emitted every time the waypoint detects a change.
+Emitted every time the waypoint detects an intersection change.
 
-```html
+```ts
+interface WaypointState {
+  el: Element | undefined;
+  going: "IN" | "OUT" | undefined;
+  direction: "UP" | "DOWN" | "LEFT" | "RIGHT" | undefined;
+}
+```
+
+```vue
 <template>
   <Waypoint @change="onChange" />
 </template>
 ```
 
-```js
-function onChange(waypointState) {
-  /* ... */
-}
-```
+The same `WaypointState` is also exposed through the default slot:
 
-```js
-interface WaypointState {
-  el: Element;
-  going: "IN" | "OUT";
-  direction: "UP" | "DOWN" | "LEFT" | "RIGHT";
-}
+```vue
+<Waypoint #default="{ going, direction }">
+  <span v-if="going">going-{{ going.toLowerCase() }}</span>
+  <span v-if="direction">direction-{{ direction.toLowerCase() }}</span>
+</Waypoint>
 ```
 
 ## Development
 
-1. Fork the repository
-2. Run the project (`npm i && npm run dev`)
-3. Follow [Conventional Commits spec](https://www.conventionalcommits.org/en/v1.0.0/) for your commits
-4. Open a pull request
+```bash
+npm i          # install
+npm run dev    # run the demo app
+npm run lint   # eslint (flat config)
+npm run type-check
+npm test       # vitest
+npm run build  # type-check + library build (ESM + CJS + .d.ts)
+```
 
-## LEGACY: Vue2 and Nuxt version
+Commits follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) spec.
 
-[vue-waypoint for Vue2 repository](https://github.com/scaccogatto/vue-waypoint/tree/vue2)
+## Legacy: Vue 2 and Nuxt
+
+The Vue 2 line lives on the [`vue2` branch](https://github.com/scaccogatto/vue-waypoint/tree/vue2). The `4.x`/`5.x` releases target Vue 3 only.
+
+## License
+
+[MIT](./LICENSE)
