@@ -31,7 +31,7 @@ jobs:
 
       - run: npm run lint
       - run: npm run type-check
-      - run: npm run test:unit
+      - run: npm run test
       - run: npm run build-only-lib
 
       - run: npm publish --provenance --access public

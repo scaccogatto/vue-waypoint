@@ -14,17 +14,11 @@ const libConfig = defineConfig({
   build: {
     lib: {
       entry: resolve(__dirname, "src/components/Waypoint/index.ts"),
-      name: "VueWaypoint",
       fileName: "vue-waypoint",
-      formats: ["es", "umd"],
+      formats: ["es", "cjs"],
     },
     rollupOptions: {
       external: ["vue"],
-      output: {
-        globals: {
-          vue: "Vue",
-        },
-      },
     },
   },
 });

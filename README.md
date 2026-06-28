@@ -15,7 +15,7 @@
 
 - Vue 3, written in TypeScript with shipped type declarations
 - Zero runtime dependencies — a thin wrapper over the native `IntersectionObserver`
-- ESM + CJS builds with correct `exports`
+- ESM + CJS builds (tree-shakable) with correct `exports`
 - Flexible: custom tag, custom observer options, reactive `active` toggle
 - Optional CSS helper classes for quick, configuration-free animations
 - Slot support exposing the live waypoint state
@@ -165,8 +165,6 @@ npm run type-check
 npm test       # vitest
 npm run build  # type-check + library build (ESM + CJS + .d.ts)
 ```
-
-Commits follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) spec.
 
 ## Legacy: Vue 2 and Nuxt
 
