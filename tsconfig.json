@@ -1,8 +1,20 @@
 {
-  "files": [],
-  "references": [
-    { "path": "./tsconfig.node.json" },
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.vitest.json" }
-  ]
+  "extends": "@vue/tsconfig/tsconfig.dom.json",
+  "include": [
+    "src/env.d.ts",
+    "src/**/*",
+    "src/**/*.vue",
+    "vite.config.*",
+    "vite.config.lib.*",
+    "vitest.config.*",
+    "eslint.config.*"
+  ],
+  "compilerOptions": {
+    "noEmit": true,
+    "lib": ["ES2023", "DOM", "DOM.Iterable"],
+    "types": ["node"],
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  }
 }
