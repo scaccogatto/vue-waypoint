@@ -1,6 +1,6 @@
 {
   "name": "vue-waypoint",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "license": "MIT",
   "private": false,
   "type": "module",
@@ -9,12 +9,16 @@
     "vue",
     "vue3",
     "waypoint",
+    "composition-api",
+    "typescript",
+    "vite",
     "intersection-observer",
     "scroll",
+    "scroll-animation",
+    "inview",
     "viewport",
     "lazy",
-    "animation",
-    "typescript"
+    "animation"
   ],
   "author": "scaccogatto",
   "main": "./dist/vue-waypoint.cjs",
