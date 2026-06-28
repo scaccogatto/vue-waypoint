@@ -17,14 +17,14 @@
     "typescript"
   ],
   "author": "scaccogatto",
-  "main": "./dist/vue-waypoint.umd.cjs",
+  "main": "./dist/vue-waypoint.cjs",
   "module": "./dist/vue-waypoint.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/vue-waypoint.js",
-      "require": "./dist/vue-waypoint.umd.cjs"
+      "require": "./dist/vue-waypoint.cjs"
     }
   },
   "files": [
@@ -41,25 +41,18 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "run-p type-check build-only-lib",
+    "build": "npm run type-check && npm run build-only-lib",
     "build-only-lib": "vite --config vite.config.lib.ts build",
     "build-only": "vite build",
     "preview": "vite preview",
-    "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
+    "type-check": "vue-tsc --noEmit -p tsconfig.json",
     "test": "vitest run",
-    "test:unit": "vitest run",
     "test:watch": "vitest",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "format": "prettier --write src/",
-    "release": "release-it",
-    "prepack": "npm run build-only-lib",
-    "prepare": "husky"
+    "format": "prettier --write src/"
   },
   "devDependencies": {
-    "@commitlint/cli": "^21.1.0",
-    "@commitlint/config-conventional": "^21.1.0",
-    "@release-it/conventional-changelog": "^11.0.1",
     "@types/node": "^22.18.0",
     "@vitejs/plugin-vue": "^6.0.7",
     "@vue/eslint-config-prettier": "^10.2.0",
@@ -68,12 +61,8 @@
     "@vue/tsconfig": "^0.9.1",
     "eslint": "^10.6.0",
     "eslint-plugin-vue": "^10.9.2",
-    "husky": "^9.1.7",
     "jsdom": "^29.1.1",
-    "lint-staged": "^17.0.8",
-    "npm-run-all2": "^9.0.2",
     "prettier": "^3.9.1",
-    "release-it": "^20.2.1",
     "typescript": "^6.0.3",
     "vite": "^8.1.0",
     "vite-plugin-dts": "^5.0.3",
@@ -83,15 +72,6 @@
   },
   "peerDependencies": {
     "vue": "^3.0.0"
-  },
-  "lint-staged": {
-    "*.{vue,js,jsx,cjs,mjs,ts,tsx,cts,mts}": "eslint --fix",
-    "*": "prettier --write --ignore-unknown"
-  },
-  "commitlint": {
-    "extends": [
-      "@commitlint/config-conventional"
-    ]
   },
   "engines": {
     "node": ">=20"
