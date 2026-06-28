@@ -1,6 +1,43 @@
 # Changelog
 
-All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+All notable changes to this project will be documented in this file. Commit guidelines follow [Conventional Commits](https://www.conventionalcommits.org/); releases are cut with [release-it](https://github.com/release-it/release-it).
+
+## [5.0.0](https://github.com/scaccogatto/vue-waypoint/compare/v4.3.0...v5.0.0) (2026-06-28)
+
+A full toolchain modernization. The public component API is unchanged; the breaking change is the published type-declaration shape and the dropped support for legacy Node versions.
+
+### ⚠ BREAKING CHANGES
+
+- **types**: the package now ships real compiled declarations at `dist/index.d.ts` instead of pointing `typings` at a raw `.ts` source file. Consumers no longer get `vue-tsc` errors from the package's source (closes [#78](https://github.com/scaccogatto/vue-waypoint/issues/78)). `package.json` now exposes a modern `exports` map (ESM `import`, CJS `require`, `types`).
+- **engines**: Node.js `>= 20` is now required for development and CI.
+
+### Bug Fixes
+
+- **types**: emit bundled `.d.ts` via `vite-plugin-dts` and repoint `types`/`typings`, fixing consumer `vue-tsc` failures ([#78](https://github.com/scaccogatto/vue-waypoint/issues/78))
+
+### Features
+
+- declare `emits: ['change']` on the component for accurate typing and devtools introspection
+
+### Build / Tooling
+
+- upgrade Vite 3 → 8, `@vitejs/plugin-vue` 3 → 6
+- upgrade Vitest 0.21 → 4 (config moved to `vitest.config.ts`)
+- upgrade TypeScript 4.7 → 6 and `vue-tsc` 0.39 → 3, align with `@vue/tsconfig` 0.9 (`moduleResolution: bundler`)
+- migrate ESLint 8 → 10 flat config (`eslint.config.js`), drop `.eslintrc.cjs`
+- replace deprecated `standard-version` with `release-it` + `@release-it/conventional-changelog`
+- upgrade Husky 8 → 9, `lint-staged`, `commitlint`, and Vue to 3.5
+- emit dual ESM (`vue-waypoint.js`) + UMD (`vue-waypoint.umd.cjs`) bundles
+
+### Tests
+
+- replace the legacy placeholder mock with a controllable `IntersectionObserver` double
+- add coverage for the `active` toggle, `disableCssHelpers`, `change` emission, the `going`/`direction` matrix, and the observer callback paths (23 tests)
+
+### Continuous Integration
+
+- new `ci.yml` running lint + type-check + test + build on Node 20 and 22
+- bump `actions/checkout` v2 → v4 and `actions/setup-node` v1 → v4; publish with npm provenance
 
 ## [4.3.0](https://github.com/scaccogatto/vue-waypoint/compare/v4.2.5...v4.3.0) (2023-08-28)
 

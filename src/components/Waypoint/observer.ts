@@ -24,7 +24,7 @@ const toGoing = (isIntersecting: boolean): Going => {
 
 const toDirection = (
   rect: DOMRectReadOnly,
-  oldRect: DOMRectReadOnly
+  oldRect: DOMRectReadOnly,
 ): Direction | undefined => {
   if (rect.top < oldRect.top) return Direction.Up;
   if (rect.left > oldRect.left) return Direction.Right;
@@ -55,7 +55,7 @@ export const createObserver = (options?: IntersectionObserverInit) => {
         going: toGoing(entry.isIntersecting),
         direction: toDirection(
           entry.boundingClientRect,
-          boundingClientRect.value
+          boundingClientRect.value,
         ),
       });
 
