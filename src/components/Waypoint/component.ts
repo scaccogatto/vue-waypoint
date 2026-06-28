@@ -31,6 +31,9 @@ export default defineComponent({
       default: () => false,
     },
   },
+  emits: {
+    change: (state: WaypointState) => state !== undefined,
+  },
   setup(props, context) {
     // check for mounted status
     const mounted = ref(false);
@@ -40,7 +43,7 @@ export default defineComponent({
 
     // activatable conditions
     const activatable = computed<boolean>(
-      () => mounted.value && props.active && element.value !== null
+      () => mounted.value && props.active && element.value !== null,
     );
 
     const waypointState = ref<WaypointState>();
@@ -85,7 +88,7 @@ export default defineComponent({
       return h(
         props.tag,
         rawProps,
-        context.slots.default?.(waypointState.value ?? {})
+        context.slots.default?.(waypointState.value ?? {}),
       );
     };
   },
