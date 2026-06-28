@@ -53,6 +53,7 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier --write src/",
     "release": "release-it",
+    "prepack": "npm run build-only-lib",
     "prepare": "husky"
   },
   "devDependencies": {
