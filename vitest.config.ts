@@ -9,6 +9,10 @@ export default mergeConfig(
       environment: "jsdom",
       exclude: [...configDefaults.exclude, "e2e/**"],
       root: fileURLToPath(new URL("./", import.meta.url)),
+      coverage: {
+        // test doubles/fixtures aren't production code; only measure src proper
+        exclude: [...configDefaults.coverage.exclude!, "src/__tests__/**"],
+      },
     },
   }),
 );
