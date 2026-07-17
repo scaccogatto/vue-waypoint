@@ -65,6 +65,15 @@ describe("Waypoint observation lifecycle", () => {
     expect(observer.observe).toHaveBeenCalledTimes(2);
   });
 
+  it("disconnects the observer on unmount", async () => {
+    const wrapper = mount(Waypoint);
+    await flushPromises();
+    const observer = MockIntersectionObserver.last!;
+
+    wrapper.unmount();
+    expect(observer.disconnect).toHaveBeenCalledTimes(1);
+  });
+
   it("passes custom IntersectionObserver options through", async () => {
     const options: IntersectionObserverInit = {
       rootMargin: "10px",
