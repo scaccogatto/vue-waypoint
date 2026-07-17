@@ -17,7 +17,7 @@ const libConfig = defineConfig({
       fileName: "vue-waypoint",
       formats: ["es", "cjs"],
     },
-    rollupOptions: {
+    rolldownOptions: {
       external: ["vue"],
     },
   },

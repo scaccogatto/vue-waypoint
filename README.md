@@ -3,6 +3,7 @@
 > Trigger functions and events based on an element's position on screen — a tiny, dependency-free Vue 3 wrapper around the native [`IntersectionObserver`](https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver).
 
 [![npm version](https://img.shields.io/npm/v/vue-waypoint.svg)](https://www.npmjs.com/package/vue-waypoint)
+[![npm downloads](https://img.shields.io/npm/dm/vue-waypoint)](https://www.npmjs.com/package/vue-waypoint)
 [![CI](https://github.com/scaccogatto/vue-waypoint/actions/workflows/ci.yml/badge.svg)](https://github.com/scaccogatto/vue-waypoint/actions/workflows/ci.yml)
 [![minzipped size](https://img.shields.io/bundlephobia/minzip/vue-waypoint)](https://bundlephobia.com/package/vue-waypoint)
 [![license](https://img.shields.io/npm/l/vue-waypoint.svg)](./LICENSE)

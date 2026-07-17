@@ -76,6 +76,18 @@ export default defineComponent({
       mounted.value = false;
     });
 
+    // rebuild the observer whenever its options change
+    watch(
+      () => props.options,
+      () => {
+        observer.value?.disconnect();
+        observer.value = createObserver(props.options)(updateWaypointState);
+        if (activatable.value && element.value !== null)
+          observer.value.observe(element.value);
+      },
+      { deep: true },
+    );
+
     const cssHelpers = computed(() => {
       const { going, direction: dir } = waypointState.value ?? {};
       const goingClass = going && `going-${going.toLowerCase()}`;
