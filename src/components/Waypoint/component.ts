@@ -71,7 +71,10 @@ export default defineComponent({
       observer.value = createObserver(props.options)(updateWaypointState);
     });
 
-    onBeforeUnmount(() => (mounted.value = false));
+    onBeforeUnmount(() => {
+      observer.value?.disconnect();
+      mounted.value = false;
+    });
 
     const cssHelpers = computed(() => {
       const { going, direction: dir } = waypointState.value ?? {};
