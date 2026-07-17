@@ -20,6 +20,7 @@
 - Flexible: custom tag, custom observer options, reactive `active` toggle
 - Optional CSS helper classes for quick, configuration-free animations
 - Slot support exposing the live waypoint state
+- `useWaypoint` composable for observing any template ref directly
 - SSR-safe
 
 ## Install
@@ -155,6 +156,29 @@ The same `WaypointState` is also exposed through the default slot:
   <span v-if="direction">direction-{{ direction.toLowerCase() }}</span>
 </Waypoint>
 ```
+
+## Composable
+
+Prefer composing over a component? `useWaypoint` observes a template ref directly, with the same reactive `active`/options behavior as `<Waypoint>`:
+
+```vue
+<script setup lang="ts">
+import { ref } from "vue";
+import { useWaypoint } from "vue-waypoint";
+
+const target = ref<Element | null>(null);
+const { state } = useWaypoint(target, {
+  active: true,
+  observerOptions: { threshold: 0.5 },
+});
+</script>
+
+<template>
+  <div ref="target">{{ state?.going }}</div>
+</template>
+```
+
+`active` and `observerOptions` accept a plain value or a `Ref`. The observer is created lazily (only once the target element and `active` are both truthy) and is disconnected automatically when the enclosing component scope is torn down. Outside a component scope, call the returned `stop()` yourself.
 
 ## Development
 

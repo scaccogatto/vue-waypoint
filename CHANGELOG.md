@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file. Commit guid
 
 ## [Unreleased]
 
+### Features
+
+- add a `useWaypoint` composable, exported alongside `Waypoint`, for observing a template ref directly without the component wrapper
+
 ### Bug Fixes
 
 - rebuild the `IntersectionObserver` when the `options` prop changes instead of only reading it once at mount
@@ -11,7 +15,7 @@ All notable changes to this project will be documented in this file. Commit guid
 ### Build / Tooling
 
 - publish with `npm publish --provenance`, guarded by a check that skips publishing if the version is already on npm
-- run CI across a Node 20 / 22 / 24 matrix instead of Node 24 only
+- run CI on Node 24 only (latest LTS) instead of a Node 20 / 22 / 24 matrix
 - expose `./package.json` in the `exports` map
 - rename `build.rollupOptions` to `build.rolldownOptions` (Vite 8 rolldown-vite)
 

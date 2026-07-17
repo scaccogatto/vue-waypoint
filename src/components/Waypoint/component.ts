@@ -47,22 +47,22 @@ export default defineComponent({
     );
 
     const waypointState = ref<WaypointState>();
-    const updateWaypointState = (newState: WaypointState) =>
-      (waypointState.value = newState);
+    const updateWaypointState = (newState: WaypointState) => {
+      waypointState.value = newState;
+      context.emit("change", newState);
+    };
 
     const observer = ref<IntersectionObserver | null>();
     watch(activatable, () => {
-      // cannot observer or unobserve if the element is null
+      // ponytail: element is bound by the template ref before `mounted`/`active`
+      // can flip, so this is unreachable through the public API; kept for type
+      // safety against a wider Element | null contract.
+      /* v8 ignore next */
       if (element.value === null) return;
 
       if (activatable.value && observer.value)
         return observer.value.observe(element.value);
       else return observer.value?.unobserve(element.value);
-    });
-
-    watch(waypointState, () => {
-      if (typeof waypointState.value === "undefined") return;
-      context.emit("change", waypointState.value);
     });
 
     // bind and unbind IntersectionObserver as needed
