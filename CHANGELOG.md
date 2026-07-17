@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. Commit guidelines follow [Conventional Commits](https://www.conventionalcommits.org/); releases are cut with [release-it](https://github.com/release-it/release-it).
 
+## [Unreleased]
+
+### Bug Fixes
+
+- rebuild the `IntersectionObserver` when the `options` prop changes instead of only reading it once at mount
+
+### Build / Tooling
+
+- publish with `npm publish --provenance`, guarded by a check that skips publishing if the version is already on npm
+- run CI across a Node 20 / 22 / 24 matrix instead of Node 24 only
+- expose `./package.json` in the `exports` map
+- rename `build.rollupOptions` to `build.rolldownOptions` (Vite 8 rolldown-vite)
+
 ## [5.0.0](https://github.com/scaccogatto/vue-waypoint/compare/v4.3.0...v5.0.0) (2026-06-28)
 
 A full toolchain modernization. The public component API is unchanged; the breaking change is the published type-declaration shape and the dropped support for legacy Node versions.

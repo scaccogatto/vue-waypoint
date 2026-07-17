@@ -29,7 +29,8 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/vue-waypoint.js",
       "require": "./dist/vue-waypoint.cjs"
-    }
+    },
+    "./package.json": "./package.json"
   },
   "files": [
     "dist"

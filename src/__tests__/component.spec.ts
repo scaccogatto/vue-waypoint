@@ -83,6 +83,29 @@ describe("Waypoint observation lifecycle", () => {
     await flushPromises();
     expect(MockIntersectionObserver.last!.options).toEqual(options);
   });
+
+  it("rebuilds the observer when options change", async () => {
+    const wrapper = mount(Waypoint, {
+      props: { options: { rootMargin: "10px" } },
+    });
+    await flushPromises();
+    const oldObserver = MockIntersectionObserver.last!;
+    expect(oldObserver.observe).toHaveBeenCalledTimes(1);
+
+    const newOptions: IntersectionObserverInit = {
+      rootMargin: "20px",
+      threshold: 0.5,
+    };
+    await wrapper.setProps({ options: newOptions });
+
+    expect(oldObserver.disconnect).toHaveBeenCalledTimes(1);
+
+    const newObserver = MockIntersectionObserver.last!;
+    expect(newObserver).not.toBe(oldObserver);
+    expect(newObserver.options).toEqual(newOptions);
+    expect(newObserver.observe).toHaveBeenCalledTimes(1);
+    expect(newObserver.observe).toHaveBeenCalledWith(wrapper.element);
+  });
 });
 
 describe("Waypoint change event", () => {
