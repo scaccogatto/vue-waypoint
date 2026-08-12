@@ -33,3 +33,6 @@ jobs:
 
       - name: Build
         run: npm run build
+
+      - name: Build demo
+        run: npm run build-only
