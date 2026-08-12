@@ -1,12 +1,6 @@
 # La demo vive su GitHub Pages. Questo sito resta solo per non rompere i link
 # vecchi (README pubblicato su npm, blob GitHub delle release passate).
+# Nessuna build: si pubblica netlify/ cosi' com'e'.
 
 [build]
-  command = "mkdir -p dist"
-  publish = "dist"
-
-[[redirects]]
-  from = "/*"
-  to = "https://scaccogatto.github.io/vue-waypoint/:splat"
-  status = 301
-  force = true
+  publish = "netlify"
