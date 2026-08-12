@@ -1,3 +1,12 @@
+# La demo vive su GitHub Pages. Questo sito resta solo per non rompere i link
+# vecchi (README pubblicato su npm, blob GitHub delle release passate).
+
 [build]
-  command = "npm run build-only"
+  command = "mkdir -p dist"
   publish = "dist"
+
+[[redirects]]
+  from = "/*"
+  to = "https://scaccogatto.github.io/vue-waypoint/:splat"
+  status = 301
+  force = true
