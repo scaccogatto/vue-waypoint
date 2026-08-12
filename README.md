@@ -10,7 +10,7 @@
 
 ## Demo
 
-[Simple demo page](https://vue-waypoint.netlify.app/) — open your browser console and watch the events fire while scrolling up and down.
+[Simple demo page](https://scaccogatto.github.io/vue-waypoint/) — open your browser console and watch the events fire while scrolling up and down.
 
 ## Features
 
