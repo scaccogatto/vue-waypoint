@@ -1,38 +1,75 @@
 name: Release
 
+# Publishes only from a pushed v* tag. The job runs in the `npm` environment,
+# whose deployment policy only admits v* tags.
 on:
   push:
     tags:
       - "v*"
-  workflow_dispatch:
 
+# never cancel a publish that is already running
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
+
+permissions: {}
 
 jobs:
   publish:
     runs-on: ubuntu-latest
+    environment: npm
     permissions:
       contents: read
       id-token: write
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
+      # exact Node pin: its bundled npm (11.19.0) supports trusted publishing,
+      # so no moving `npm install -g npm@latest` is needed
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
-          node-version: 24
-          cache: npm
+          node-version: 24.21.0
           registry-url: "https://registry.npmjs.org"
+
+      - name: Check npm supports trusted publishing (>= 11.5.1)
+        run: |
+          node -e '
+            const [major, minor, patch] = process.argv[1].split(".").map(Number);
+            const ok = major > 11 || (major === 11 && (minor > 5 || (minor === 5 && patch >= 1)));
+            if (!ok) { console.error(`npm ${process.argv[1]} is older than 11.5.1`); process.exit(1); }
+          ' "$(npm --version)"
+
+      - name: Check the tag matches package.json
+        env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          if [ "$TAG" != "v$VERSION" ]; then
+            echo "::error::tag $TAG does not match package.json version v$VERSION"
+            exit 1
+          fi
 
       - run: npm ci
 
-      - run: npm run lint
-      - run: npm run type-check
-      - run: npm run test
-      - run: npm run build-only-lib
+      - name: Lint
+        run: npm run lint
 
-      - run: npm install -g npm@latest
+      - name: Format
+        run: npm run format:check
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Test
+        run: npm run coverage
+
+      - name: Build
+        run: npm run build
+
+      - name: Package checks (publint, arethetypeswrong)
+        run: npm run lint:package
 
       - name: Check if version is already published
         id: check
