@@ -23,12 +23,17 @@
   "author": "scaccogatto",
   "main": "./dist/vue-waypoint.cjs",
   "module": "./dist/vue-waypoint.js",
-  "types": "./dist/index.d.ts",
+  "types": "./dist/index.d.cts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/vue-waypoint.js",
-      "require": "./dist/vue-waypoint.cjs"
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/vue-waypoint.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/vue-waypoint.cjs"
+      }
     },
     "./package.json": "./package.json"
   },
@@ -57,10 +62,12 @@
     "coverage": "vitest run --coverage",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
+    "lint:package": "publint --strict && attw --pack .",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },
   "devDependencies": {
+    "@arethetypeswrong/cli": "^0.18.5",
     "@types/node": "^26.6.5",
     "@vitejs/plugin-vue": "^6.0.10",
     "@vitest/coverage-v8": "^5.0.4",
@@ -72,6 +79,7 @@
     "eslint-plugin-vue": "^10.9.2",
     "jsdom": "^30.0.1",
     "prettier": "^3.9.10",
+    "publint": "^0.3.25",
     "typescript": "^6.0.3",
     "vite": "^8.3.4",
     "vite-plugin-dts": "^5.0.3",

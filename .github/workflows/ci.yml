@@ -37,5 +37,9 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Package checks (publint, arethetypeswrong)
+        run: npm run lint:package
+
       - name: Build demo
         run: npm run build-only
+
