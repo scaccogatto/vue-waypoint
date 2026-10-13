@@ -43,3 +43,12 @@ jobs:
       - name: Build demo
         run: npm run build-only
 
+      # keep the peerDependencies floor honest: rerun the tests against the
+      # oldest Vue the package claims to support (last step, it rewrites node_modules)
+      - name: Test against the minimum supported Vue
+        run: |
+          MIN_VUE=$(node -p "require('./package.json').peerDependencies.vue.replace(/^\\^/, '')")
+          npm pkg set "devDependencies.vue=$MIN_VUE" "devDependencies.@vue/server-renderer=$MIN_VUE" "overrides.vue=$MIN_VUE"
+          npm install --no-audit --no-fund
+          node -p "'vue ' + require('vue/package.json').version"
+          npm test
