@@ -8,7 +8,12 @@ import {
   watch,
   type PropType,
 } from "vue";
-import { createObserver, type WaypointState } from "./observer";
+import {
+  createObserver,
+  sameOptions,
+  snapshotOptions,
+  type WaypointState,
+} from "./observer";
 
 export default defineComponent({
   // eslint-disable-next-line vue/multi-word-component-names
@@ -52,38 +57,51 @@ export default defineComponent({
       context.emit("change", newState);
     };
 
-    const observer = ref<IntersectionObserver | null>();
-    watch(activatable, () => {
-      // ponytail: element is bound by the template ref before `mounted`/`active`
-      // can flip, so this is unreachable through the public API; kept for type
-      // safety against a wider Element | null contract.
-      /* v8 ignore next */
-      if (element.value === null) return;
+    // plain locals, not refs: nothing renders from them
+    let observer: IntersectionObserver | null = null;
+    let appliedOptions: IntersectionObserverInit = {};
+    let observed: Element | null = null;
 
-      if (activatable.value && observer.value)
-        return observer.value.observe(element.value);
-      else return observer.value?.unobserve(element.value);
-    });
+    const build = () => {
+      appliedOptions = snapshotOptions(props.options);
+      observer = createObserver(props.options)(updateWaypointState);
+    };
+
+    // observe exactly the element that should be observed right now: a `tag`
+    // change re-renders a new element, which must replace the old one
+    const sync = () => {
+      const wanted = activatable.value ? element.value : null;
+      if (!observer || observed === wanted) return;
+      if (observed) observer.unobserve(observed);
+      observed = wanted;
+      if (wanted) observer.observe(wanted);
+    };
+
+    watch([activatable, element], sync);
 
     // bind and unbind IntersectionObserver as needed
     onMounted(() => {
+      build();
       mounted.value = true;
-      observer.value = createObserver(props.options)(updateWaypointState);
     });
 
     onBeforeUnmount(() => {
-      observer.value?.disconnect();
+      observer?.disconnect();
+      observer = null;
+      observed = null;
       mounted.value = false;
     });
 
-    // rebuild the observer whenever its options change
+    // rebuild the observer only when the options actually differ, so an inline
+    // `:options="{ threshold: 0.5 }"` literal survives parent re-renders
     watch(
       () => props.options,
-      () => {
-        observer.value?.disconnect();
-        observer.value = createObserver(props.options)(updateWaypointState);
-        if (activatable.value && element.value !== null)
-          observer.value.observe(element.value);
+      (options) => {
+        if (!observer || sameOptions(appliedOptions, options)) return;
+        observer.disconnect();
+        observed = null;
+        build();
+        sync();
       },
       { deep: true },
     );

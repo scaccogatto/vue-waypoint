@@ -1,4 +1,5 @@
 import { beforeEach, describe, it, expect } from "vitest";
+import { defineComponent, h, ref } from "vue";
 import { mount, flushPromises } from "@vue/test-utils";
 import { Waypoint } from "@/components/Waypoint";
 import { Going, Direction } from "@/components/Waypoint";
@@ -120,6 +121,45 @@ describe("Waypoint observation lifecycle", () => {
     const newObserver = MockIntersectionObserver.last!;
     expect(newObserver).not.toBe(oldObserver);
     expect(newObserver.observe).not.toHaveBeenCalled();
+  });
+});
+
+describe("Waypoint re-renders", () => {
+  it("moves observation to the new element when the tag changes", async () => {
+    const wrapper = mount(Waypoint);
+    await flushPromises();
+    const observer = MockIntersectionObserver.last!;
+    const oldElement = wrapper.element;
+
+    await wrapper.setProps({ tag: "section" });
+    await flushPromises();
+
+    expect(wrapper.element).not.toBe(oldElement);
+    expect(observer.unobserve).toHaveBeenCalledWith(oldElement);
+    expect(observer.observe).toHaveBeenCalledTimes(2);
+    expect(observer.observe).toHaveBeenLastCalledWith(wrapper.element);
+  });
+
+  it("keeps the observer when a parent re-renders an inline options literal", async () => {
+    const tick = ref(0);
+    const Parent = defineComponent({
+      setup: () => () =>
+        h("div", { "data-tick": tick.value }, [
+          h(Waypoint, { options: { threshold: 0.5, rootMargin: "10px" } }),
+        ]),
+    });
+    const wrapper = mount(Parent);
+    await flushPromises();
+    const observer = MockIntersectionObserver.last!;
+
+    tick.value++;
+    await flushPromises();
+    tick.value++;
+    await flushPromises();
+
+    expect(wrapper.attributes("data-tick")).toBe("2");
+    expect(MockIntersectionObserver.instances).toHaveLength(1);
+    expect(observer.disconnect).not.toHaveBeenCalled();
   });
 });
 
