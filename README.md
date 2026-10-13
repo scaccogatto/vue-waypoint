@@ -10,13 +10,13 @@
 
 ## Demo
 
-[Simple demo page](https://scaccogatto.github.io/vue-waypoint/) — open your browser console and watch the events fire while scrolling up and down.
+[Live demo](https://scaccogatto.github.io/vue-waypoint/): scroll up and down and watch the on-page `@change` log, the CSS helper classes and the slot state update.
 
 ## Features
 
-- Vue 3, written in TypeScript with shipped type declarations
+- Vue 3.3+, written in TypeScript with shipped type declarations
 - Zero runtime dependencies — a thin wrapper over the native `IntersectionObserver`
-- ESM + CJS builds (tree-shakable) with correct `exports`
+- ESM + CJS builds (tree-shakable) with correct `exports` and matching `.d.ts` / `.d.cts` types
 - Flexible: custom tag, custom observer options, reactive `active` toggle
 - Optional CSS helper classes for quick, configuration-free animations
 - Slot support exposing the live waypoint state
@@ -98,6 +98,8 @@ const options: IntersectionObserverInit = {
 
 `<Waypoint :options="options" />`
 
+The observer is rebuilt only when the options actually change value (`root` by identity, `threshold` as a number or an array, the rest by value), so an inline literal such as `:options="{ threshold: 0.5 }"` is fine: parent re-renders do not recreate the observer.
+
 ### `tag`
 
 The rendered element tag. Defaults to `div`.
@@ -178,7 +180,7 @@ const { state } = useWaypoint(target, {
 </template>
 ```
 
-`active` and `observerOptions` accept a plain value or a `Ref`. The observer is created lazily (only once the target element and `active` are both truthy) and is disconnected automatically when the enclosing component scope is torn down. Outside a component scope, call the returned `stop()` yourself.
+`active` and `observerOptions` accept a plain value or a `Ref`. When the target ref points to a new element (for example after a `v-if` / `v-else` swap), observation moves to the new element, and setting it to `null` stops observing the old one. The observer is created lazily (only once the target element and `active` are both truthy) and is disconnected automatically when the enclosing component scope is torn down. Outside a component scope, call the returned `stop()` yourself.
 
 ## Development
 
@@ -188,12 +190,13 @@ npm run dev    # run the demo app
 npm run lint   # eslint (flat config)
 npm run type-check
 npm test       # vitest
-npm run build  # type-check + library build (ESM + CJS + .d.ts)
+npm run build  # type-check + library build (ESM + CJS + .d.ts/.d.cts)
+npm run lint:package  # publint + arethetypeswrong on the packed tarball
 ```
 
 ## Legacy: Vue 2 and Nuxt
 
-The Vue 2 line lives on the [`vue2` branch](https://github.com/scaccogatto/vue-waypoint/tree/vue2). The `4.x`/`5.x` releases target Vue 3 only.
+The Vue 2 line (and its Nuxt 2 notes) lives on the [`vue2` branch](https://github.com/scaccogatto/vue-waypoint/tree/vue2). The `4.x`/`5.x` releases target Vue 3 only. They are SSR-safe, so they also work in Nuxt 3+: import `Waypoint` or `useWaypoint` from `vue-waypoint` in your components as usual.
 
 ## License
 
