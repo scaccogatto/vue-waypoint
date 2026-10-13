@@ -12,9 +12,10 @@
     <section class="demo">
       <h2>1. CSS helpers</h2>
       <p>
-        The component adds <code>waypoint</code>,
-        <code>going-in</code>/<code>going-out</code> and
-        <code>direction-*</code> classes. No JavaScript needed to animate.
+        The component adds <code>waypoint</code>, <code>going-in</code>/<code
+          >going-out</code
+        >
+        and <code>direction-*</code> classes. No JavaScript needed to animate.
       </p>
       <Waypoint v-for="card in 4" :key="card" class="card" @change="onChange">
         <h3>Card {{ card }}</h3>
@@ -43,7 +44,13 @@
       </p>
       <label class="control">
         threshold
-        <input v-model.number="threshold" type="range" min="0" max="100" step="10" />
+        <input
+          v-model.number="threshold"
+          type="range"
+          min="0"
+          max="100"
+          step="10"
+        />
       </label>
       <Waypoint
         :options="observerOptions"
@@ -90,7 +97,11 @@
 
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import { Waypoint, useWaypoint, type WaypointState } from "./components/Waypoint";
+import {
+  Waypoint,
+  useWaypoint,
+  type WaypointState,
+} from "./components/Waypoint";
 
 const threshold = ref(50);
 const observerOptions = computed(() => ({ threshold: threshold.value / 100 }));
@@ -127,7 +138,11 @@ function onChange({ going, direction }: WaypointState) {
 
 body {
   margin: 0;
-  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-family:
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    sans-serif;
   color: var(--navy);
   background: #fbfdfc;
   line-height: 1.5;
