@@ -7,7 +7,12 @@ import {
   watch,
   type Ref,
 } from "vue";
-import { createObserver, type WaypointState } from "./observer";
+import {
+  createObserver,
+  sameOptions,
+  snapshotOptions,
+  type WaypointState,
+} from "./observer";
 
 export type UseWaypointOptions = {
   active?: Ref<boolean> | boolean;
@@ -25,44 +30,51 @@ export const useWaypoint = (
 ): UseWaypointReturn => {
   const isActive = computed(() => toValue(active));
   const currentOptions = computed(() => toValue(observerOptions));
-  const activatable = computed(() => target.value !== null && isActive.value);
 
   const state = ref<WaypointState>();
   const updateState = (newState: WaypointState) => (state.value = newState);
 
-  // built lazily: no window/IntersectionObserver access until target+active are both truthy
-  const observer = ref<IntersectionObserver | null>();
+  // built lazily: no window/IntersectionObserver access until target+active are both truthy.
+  // Plain locals, not refs: nothing renders from them.
+  let observer: IntersectionObserver | null = null;
+  let appliedOptions: IntersectionObserverInit = {};
+  let observed: Element | null = null;
 
-  const rebuild = () => {
-    observer.value?.disconnect();
-    observer.value = createObserver(currentOptions.value)(updateState);
-    if (target.value) observer.value.observe(target.value);
+  const build = (): IntersectionObserver => {
+    appliedOptions = snapshotOptions(currentOptions.value);
+    return createObserver(currentOptions.value)(updateState);
+  };
+
+  // observe exactly the element that should be observed right now, moving
+  // observation when the target is swapped and releasing it when it goes null
+  const sync = (el: Element | null, on: boolean) => {
+    const wanted = on ? el : null;
+    if (observed === wanted) return;
+    if (observed) observer?.unobserve(observed);
+    observed = wanted;
+    if (wanted) (observer ??= build()).observe(wanted);
   };
 
   const stopHandles = [
+    watch([target, isActive], ([el, on]) => sync(el, on), { immediate: true }),
+    // rebuild the observer only when the options actually differ, mirroring the component
     watch(
-      activatable,
-      () => {
-        if (target.value === null) return;
-        const el = target.value;
-
-        if (activatable.value) {
-          if (!observer.value) rebuild();
-          else observer.value.observe(el);
-        } else {
-          observer.value?.unobserve(el);
-        }
+      currentOptions,
+      (options) => {
+        if (!observer || sameOptions(appliedOptions, options)) return;
+        observer.disconnect();
+        observer = build();
+        if (observed) observer.observe(observed);
       },
-      { immediate: true },
+      { deep: true },
     ),
-    // rebuild the observer whenever its options change, mirroring the component
-    watch(currentOptions, () => observer.value && rebuild(), { deep: true }),
   ];
 
   const stop = () => {
     stopHandles.forEach((stopWatch) => stopWatch());
-    observer.value?.disconnect();
-    observer.value = null;
+    observer?.disconnect();
+    observer = null;
+    observed = null;
   };
 
   if (getCurrentScope()) onScopeDispose(stop);

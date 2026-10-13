@@ -1,23 +1,61 @@
 # Changelog
 
-All notable changes to this project will be documented in this file. Commit guidelines follow [Conventional Commits](https://www.conventionalcommits.org/); releases are cut with [release-it](https://github.com/release-it/release-it).
+All notable changes to this project are documented in this file. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/). Releases are published by pushing a `vX.Y.Z` tag that matches `package.json`: the Release workflow verifies it, runs the full check suite and publishes to npm with provenance through trusted publishing.
 
 ## [Unreleased]
 
-### Features
+### Changed
 
-- add a `useWaypoint` composable, exported alongside `Waypoint`, for observing a template ref directly without the component wrapper
+- **BREAKING**: `engines.node` is now `>=24`, the only Node version CI tests (Node 20 is end-of-life). Installs with `engine-strict` on older Node versions now fail.
+- `peerDependencies.vue` is now `^3.3.0`. Since 5.1.0 the build imports `toValue` (Vue 3.3) and `getCurrentScope`/`onScopeDispose` (Vue 3.2), so Vue 3.0 to 3.2 already failed at import time: the old `^3.0.0` range never worked for this code. CI now runs the test suite against Vue 3.3.0.
+- The `exports` map now has separate `import` and `require` branches, each with its own `types` condition listed first.
+- `useWaypoint` and `<Waypoint>` rebuild the `IntersectionObserver` only when the options change value (`root` by identity, `threshold` as a number or an array, other keys by value). In-place mutations still trigger a rebuild.
 
-### Bug Fixes
+### Added
 
-- rebuild the `IntersectionObserver` when the `options` prop changes instead of only reading it once at mount
+- CommonJS type declarations (`dist/*.d.cts`), so `require` consumers under `node16`/`nodenext` resolution get CJS types instead of ESM ones ("masquerading as ESM"). Relative imports in the declarations now carry explicit extensions.
 
-### Build / Tooling
+### Fixed
 
-- publish with `npm publish --provenance`, guarded by a check that skips publishing if the version is already on npm
-- run CI on Node 24 only (latest LTS) instead of a Node 20 / 22 / 24 matrix
-- expose `./package.json` in the `exports` map
-- rename `build.rollupOptions` to `build.rolldownOptions` (Vite 8 rolldown-vite)
+- `useWaypoint` now follows target swaps: it unobserves the previous element and observes the new one (for example after a `v-if` / `v-else` swap), and it unobserves the element when the target becomes `null`.
+- `<Waypoint>` observes its new root element when a `tag` change re-renders it, instead of keeping the detached old one.
+- An inline `:options="{ ... }"` literal no longer recreates the observer on every parent re-render, which used to reset the direction baseline and re-emit `change`.
+
+## [5.1.0](https://github.com/scaccogatto/vue-waypoint/compare/v5.0.3...v5.1.0) - 2026-07-17
+
+### Added
+
+- `useWaypoint` composable, exported alongside `Waypoint`, for observing a template ref directly without the component wrapper.
+
+### Changed
+
+- CI runs on Node 24 only (latest LTS) instead of a Node 20 / 22 / 24 matrix.
+
+## [5.0.3](https://github.com/scaccogatto/vue-waypoint/compare/v5.0.2...v5.0.3) - 2026-07-17
+
+### Added
+
+- `./package.json` is exposed in the `exports` map.
+
+### Changed
+
+- Publishing skips versions that are already on npm.
+- `build.rollupOptions` is renamed to `build.rolldownOptions` (Vite 8).
+
+### Fixed
+
+- The `IntersectionObserver` is rebuilt when the `options` prop changes, instead of reading it only once at mount.
+
+## [5.0.2](https://github.com/scaccogatto/vue-waypoint/compare/v5.0.0...v5.0.2) - 2026-07-17
+
+### Changed
+
+- The UMD bundle is dropped: `require` now resolves to a plain CommonJS build at `dist/vue-waypoint.cjs`.
+- Releases are published with token-less npm trusted publishing (OIDC) and provenance.
+
+### Fixed
+
+- The `IntersectionObserver` is disconnected when the component unmounts.
 
 ## [5.0.0](https://github.com/scaccogatto/vue-waypoint/compare/v4.3.0...v5.0.0) (2026-06-28)
 

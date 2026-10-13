@@ -3,6 +3,8 @@ import {
   createObserver,
   Going,
   Direction,
+  sameOptions,
+  snapshotOptions,
 } from "@/components/Waypoint/observer";
 import type { WaypointState } from "@/components/Waypoint/observer";
 import {
@@ -73,5 +75,57 @@ describe("createObserver", () => {
       "observed element is undefined",
     );
     errorSpy.mockRestore();
+  });
+});
+
+describe("sameOptions", () => {
+  const root = document.createElement("div");
+
+  it.each<[string, IntersectionObserverInit, IntersectionObserverInit]>([
+    ["empty objects", {}, {}],
+    [
+      "a scalar and a one-item threshold array",
+      { threshold: 0.5 },
+      { threshold: [0.5] },
+    ],
+    ["a missing threshold and the default 0", {}, { threshold: 0 }],
+    [
+      "an explicit undefined key and a missing one",
+      { rootMargin: undefined },
+      {},
+    ],
+    [
+      "the same root element",
+      { root, rootMargin: "1px" },
+      { root, rootMargin: "1px" },
+    ],
+  ])("treats %s as equal", (_label, a, b) => {
+    expect(sameOptions(a, b)).toBe(true);
+  });
+
+  it.each<[string, IntersectionObserverInit, IntersectionObserverInit]>([
+    ["different thresholds", { threshold: 0.5 }, { threshold: 1 }],
+    [
+      "threshold arrays of different length",
+      { threshold: [0, 1] },
+      { threshold: [0] },
+    ],
+    ["different rootMargins", { rootMargin: "1px" }, { rootMargin: "2px" }],
+    ["different roots", { root }, { root: document.createElement("div") }],
+  ])("treats %s as different", (_label, a, b) => {
+    expect(sameOptions(a, b)).toBe(false);
+  });
+});
+
+describe("snapshotOptions", () => {
+  it("is not affected by later in-place mutations", () => {
+    const options: IntersectionObserverInit = {
+      threshold: [0, 1],
+      rootMargin: "1px",
+    };
+    const snapshot = snapshotOptions(options);
+    (options.threshold as number[]).push(0.5);
+    options.rootMargin = "2px";
+    expect(snapshot).toEqual({ threshold: [0, 1], rootMargin: "1px" });
   });
 });
