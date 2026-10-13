@@ -5,7 +5,6 @@
     "src/**/*",
     "src/**/*.vue",
     "vite.config.*",
-    "vite.config.lib.*",
     "vitest.config.*",
     "eslint.config.*"
   ],
