@@ -38,7 +38,7 @@ jobs:
           node -e '
             const [major, minor, patch] = process.argv[1].split(".").map(Number);
             const ok = major > 11 || (major === 11 && (minor > 5 || (minor === 5 && patch >= 1)));
-            if (!ok) { console.error(`npm ${process.argv[1]} is older than 11.5.1`); process.exit(1); }
+            if (!ok) { console.error("npm " + process.argv[1] + " is older than 11.5.1"); process.exit(1); }
           ' "$(npm --version)"
 
       - name: Check the tag matches package.json
